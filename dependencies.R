@@ -1,5 +1,7 @@
 # LIST OF REQUIRED PACKAGES -----------------------------------------------
 devtools::install_github("hrbrmstr/nominatim")
+devtools::install_github("hrbrmstr/streamgraph")
+
 
 
 library(AMR)
@@ -41,6 +43,8 @@ library(cbsodataR)
 library(shinythemes)
 library(readr)
 library(dodgr)
+library(shinyMatrix)
+library(streamgraph)
 
 
 

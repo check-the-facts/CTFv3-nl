@@ -31,6 +31,7 @@
 # library(readr)
 # library(DT)
 # library(dodgr)
+# library(shinyMatrix)
 
 
 ###NEW DASHBOARD
@@ -40,7 +41,7 @@ ui <- dashboardPage(
   title = "Check-the-Facts: Higher Education",
   
   dashboardHeader(
-    title = span(img(src = "check the facts.svg", height = 35), "Check-The-Facts: Higher Education"),
+    title = span(img(src = "check the facts logo.svg", height = 35), "Check-The-Facts: Higher Education"),
     titleWidth = 300,
     dropdownMenu(
       type = "notifications", 
@@ -63,7 +64,7 @@ ui <- dashboardPage(
     width = 300,
     div(class = "inlay", style = "height:15px;width:100%;background-color: #ecf0f5;"),
     menuItem(
-      "DOWNLOAD SELECTION",
+      "Download Data",
       tabName = "download",
       icon = icon("download"),
       textInput(
@@ -88,6 +89,18 @@ ui <- dashboardPage(
         )
       )
     ),
+    sliderInput(
+      inputId = "yearInput",
+      label = "Select year",
+      min = min(data4$Year),
+      max =  max(data4$Year),
+      value = max(data4$Year),
+      step = 1,
+      sep = ""
+    ),
+    selectizeInput("crohoInput", label = h5("Select area of study"),
+                   choices = sort(unique(data4$CROHO.ONDERDEEL)), selected = NULL, multiple = TRUE, 
+                   options = list(plugins= list('remove_button'))),
     br() ),
   
   dashboardBody(
@@ -128,21 +141,14 @@ ui <- dashboardPage(
     
     fluid_design("RegionalStats_panel", "box1", "box2", "box3", "box4"),
     fluid_design("Analytics_panel", "box5", "box6", "box7", "box8"),
-    fluid_design("Sources_panel", "box_los1", "box_los2", "box_los3", NULL),
+    fluid_design("Sources_panel", "box_sources", NULL, NULL, NULL),
     
     fluidRow(
-      div(
-        id = "Studyprograms_panel",
-        column(
-          width = 12
-        ),
-        column(
-          width = 6,
-          uiOutput("box_pat2")
-        ),
-        column(
-          width = 6,
-          uiOutput("box_year"))))))
+      div(id = "Studyprograms_panel",
+          column(width = 12, uiOutput("box_stud")),
+          column(width = 6, uiOutput("box_stud2")),
+          column(width = 6, uiOutput("box_local"))))))
+        
   
 
  
