@@ -135,14 +135,16 @@ ui <- dashboardPage(
                     tabPanel("Matrix", "a doorstroommatrix")), br(),
              tabBox(title = "Inschrijvingen", id = "tabsetinsch", width = 6,
                     tabPanel("Trend", streamgraphOutput("ins_stream")),
-                    tabPanel("per group"),
+                    tabPanel("per group", plotlyOutput("bar_studies")),
                     selectInput("streamin",
                                 label = "Choose a variable to display",
                                 choices = c("INSTELLINGSNAAM", "OPLEIDINGSNAAM.ACTUEEL", "GESLACHT", "GEMEENTENAAM.x"),
                                 selected = "INSTELLINGSNAAM")
                     
                     
-                    )
+                    ), br(),
+             tabBox(title = "Map", id = "tabsetmap", width = 6,
+                    tabPanel("HO locations"), leafletOutput("map1"))
           
           
              

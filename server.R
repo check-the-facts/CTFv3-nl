@@ -158,8 +158,7 @@ server <- function(input, output, session) {
   
   output$ins_stream = renderStreamgraph(
     data4 %>%
-      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM) %>%
-      summarise_at(vars(Registered), funs(sum)) %>%
+      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM, GESLACHT) %>%
       filter(HO.type %in% input$wohboInput) %>%
       filter(language %in% input$languageInput) %>%
       filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
@@ -167,11 +166,48 @@ server <- function(input, output, session) {
       filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
       filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
       filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+      summarise_at(vars(Registered), funs(sum)) %>%
       streamgraph() %>%
       geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge") %>%
-      streamgraph(key=INSTELLINGSNAAM, value = Registered, date = Year, offset="zero", interpolate="linear")
+      streamgraph('INSTELLINGSNAAM', 'Registered', 'Year')
       
     )
+  
+  
+  
+  output$bar_studies <- renderPlotly({ 
+    p <- data4 %>% 
+      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM) %>% 
+      summarise_at(vars(Registered), funs(sum)) %>%
+      filter(Year == input$yearInput) %>%
+      filter(HO.type %in% input$wohboInput) %>%
+      filter(language %in% input$languageInput) %>%
+      filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+      filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+      filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+      filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+      filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+      ggplot() +
+      geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge")
+    ggplotly(p) 
+    
+    
+    
+    
+    output$map1 <- renderLeaflet({
+      leaflet() %>% 
+        addTiles() %>%
+        addProviderTiles("Esri.WorldGrayCanvas") %>%
+        
+        addMarkers(labelOptions = labelOptions(noHide = F), lng = data4$long, lat = data4$lat,
+                   clusterOptions = markerClusterOptions(maxClusterRadius = 9), label = data4$INSTELLINGSNAAM, group="Official University address") %>%
+        AddSearchButton(group = 'Official University address',position = "topleft", zoom = 15)
+      
+      
+    })
+    
+    
+  })
   
 
   
