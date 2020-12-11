@@ -3,38 +3,6 @@
 #Version 2.1
 
 
-# library(ggplot2)
-# library(sp)
-# library(shiny)
-# library(leaflet)
-# library(dplyr)
-# library(leaflet.extras)
-# library(inlmisc)
-# library(jsonlite)
-# library(nominatim)
-# library(tidygeocoder)
-# library(mdthemes)
-# library(tidyverse)
-# library(osmdata)
-# library(sf)
-# library(geojsonio)
-# library(cld2)
-# library(magrittr)
-# library(htmlwidgets)
-# library(ggpubr)
-# library(plotly)
-# library(franc)
-# library(cbsodataR)
-# library(shinydashboard)
-# library(shinythemes)
-# library(shinyWidgets)
-# library(readr)
-# library(DT)
-# library(dodgr)
-# library(shinyMatrix)
-
-
-###NEW DASHBOARD
 
 ui <- dashboardPage(
   skin = "black",
@@ -42,12 +10,16 @@ ui <- dashboardPage(
   
   dashboardHeader(
     title = span(img(src = "check the facts logo.svg", height = 35), "Check-The-Facts: Higher Education"),
-    titleWidth = 300,
+    titleWidth = 600,
     dropdownMenu(
       type = "notifications", 
       headerText = strong("HELP"), 
       icon = icon("question"), 
-      badgeStatus = NULL
+      badgeStatus = NULL,
+      notificationItem(
+        text = (help$text[1])),
+      notificationItem(
+        text = (help$text[2]))
     ),
     tags$li(
       a(
@@ -61,7 +33,7 @@ ui <- dashboardPage(
     )),
   
   dashboardSidebar(
-    width = 300,
+    width = 350,
     div(class = "inlay", style = "height:15px;width:100%;background-color: #ecf0f5;"),
     menuItem(
       "Download Data",
@@ -75,20 +47,13 @@ ui <- dashboardPage(
       div(
         downloadButton(
           outputId = "downloadData",
-          label = "Save table data",
-          icon = icon("download"),
-          style = "color: black; margin-left: 15px; margin-bottom: 5px;"
-        )
-      ),
-      div(
-        downloadButton(
-          outputId = "downloadMicroData",
-          label = "Save graph Data",
+          label = "Save data",
           icon = icon("download"),
           style = "color: black; margin-left: 15px; margin-bottom: 5px;"
         )
       )
-    ),
+   ),
+    br(),
     sliderInput(
       inputId = "yearInput",
       label = "Select year",
@@ -99,8 +64,28 @@ ui <- dashboardPage(
       sep = ""
     ),
     selectizeInput("crohoInput", label = h5("Select area of study"),
-                   choices = sort(unique(data4$CROHO.ONDERDEEL)), selected = NULL, multiple = TRUE, 
+                   choices = sort(unique(data4$CROHO.ONDERDEEL)), selected = sort(unique(data4$CROHO.ONDERDEEL)), multiple = TRUE, 
                    options = list(plugins= list('remove_button'))),
+    selectizeInput("wohboInput", label = h5("Select WO/HBO"),
+                   br(),
+                   choices = sort(unique(data4$HO.type)), selected = sort(unique(data4$HO.type)), multiple = TRUE, 
+                   options = list(plugins= list('remove_button'))),
+    selectizeInput("languageInput", label = h5("Select language of study"),
+                   choices = sort(unique(data4$language)), selected = sort(unique(data4$language)), multiple = TRUE, 
+                   options = list(plugins= list('remove_button'))),
+    pickerInput("locationInput", h5("Select Location"), choices=sort(unique(data4$GEMEENTENAAM.x)), multiple = TRUE,
+                selected = sort(unique(data4$GEMEENTENAAM.x)),
+                options = list(`actions-box` = TRUE, size = 8, `live-search`= TRUE)),
+    selectizeInput("levelInput", label = h5("Select level of study"),
+                   choices = sort(unique(data4$TYPE.HOGER.ONDERWIJS)), selected = sort(unique(data4$TYPE.HOGER.ONDERWIJS)), multiple = TRUE, 
+                   options = list(plugins= list('remove_button'))),
+    selectizeInput("fullpartInput", label = h5("Select Full/Part-time"),
+                   choices = sort(unique(data4$OPLEIDINGSVORM)), selected = sort(unique(data4$OPLEIDINGSVORM)), multiple = TRUE, 
+                   options = list(plugins= list('remove_button'))),
+    pickerInput("instituteInput", h5("Select Institute"), choices=sort(unique(data4$INSTELLINGSNAAM)), multiple = TRUE,
+                selected = sort(unique(data4$INSTELLINGSNAAM)),
+                options = list(`actions-box` = TRUE, size = 8, `live-search`= TRUE)),
+    
     br() ),
   
   dashboardBody(
@@ -112,42 +97,56 @@ ui <- dashboardPage(
     ),
     
     useShinyjs(),
-    introjsUI(),
     
     # MAIN BODY ---------------------------------------------------------------
     
     fluidRow(
       column(
         width = 12,
-        introBox(
-          bsButton("Study Programs",
+          bsButton("studyprograms",
                    label = "Study Programs",
                    icon = icon("user-graduate"),
                    style = "primary"),
-          bsButton("Regional Stats",
+          bsButton("regionalstats",
                    label = "Regional Stats",
                    icon = icon("globe-europe"),
                    style = "primary"),
-          bsButton("Analytics",
+          bsButton("analytics",
                    label = "Analytics",
                    icon = icon("chart-line"),
                    style = "primary"),
-          bsButton("Sources",
+          bsButton("sources",
                    label = "Sources",
                    icon = icon("table"),
-                   style = "primary"))
+                   style = "primary")
       )
     ),
     
     fluid_design("RegionalStats_panel", "box1", "box2", "box3", "box4"),
     fluid_design("Analytics_panel", "box5", "box6", "box7", "box8"),
-    fluid_design("Sources_panel", "box_sources", NULL, NULL, NULL),
+    fluidRow(id = "Sources_panel", br(),
+               box(title = "Sources", "This table shows the original sources used. These are all openly available (open data).",
+                 br(), width = 12, tableOutput("source_table")
+             )),
     
-    fluidRow(
-      div(id = "Studyprograms_panel",
-          column(width = 12, uiOutput("box_stud")),
-          column(width = 6, uiOutput("box_stud2")),
-          column(width = 6, uiOutput("box_local"))))))
+    fluidRow(id = "Studyprograms_panel", br(),
+             tabBox(title = "Studies",id = "tabsetstud", width =  12,
+                    tabPanel("Study Program Table", DT::dataTableOutput("studies_table")),
+                    tabPanel("Matrix", "a doorstroommatrix")), br(),
+             tabBox(title = "Inschrijvingen", id = "tabsetinsch", width = 6,
+                    tabPanel("Trend", streamgraphOutput("ins_stream")),
+                    tabPanel("per group"),
+                    selectInput("streamin",
+                                label = "Choose a variable to display",
+                                choices = c("INSTELLINGSNAAM", "OPLEIDINGSNAAM.ACTUEEL", "GESLACHT", "GEMEENTENAAM.x"),
+                                selected = "INSTELLINGSNAAM")
+                    
+                    
+                    )
+          
+          
+             
+             )))
         
   
 

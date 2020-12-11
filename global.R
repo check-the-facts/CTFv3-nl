@@ -124,35 +124,12 @@ data4 <- merge(data4,HO_locations,by="INSTELLINGSNAAM")
 
 
 
+# HELP + sources Information ---------------------------------------------------------------
 
+help <- read_csv2("help.csv")
+sources <- read.csv("Sources.csv")
 
-# antimicrobial count for select input in ui.R
-
-# ab <- antimicrobials %>%
-#   filter(!is.na(ab_type)) %>%
-#   group_by(ab_type) %>%
-#   summarise(n = n()) %>%
-#   arrange(desc(n)) %>%
-#   filter(!is.na(ab_type)) %>%
-#   distinct()
-# 
-# ab_groups <- antimicrobials %>%
-#   filter(!is.na(ab_group)) %>%
-#   select(ab_group) %>%
-#   arrange(ab_group) %>%
-#   distinct()
-# 
-# 
-# update_ab <- antimicrobials %>%
-#   select(ab_type, ab_group) %>%
-#   distinct(.keep_all = TRUE)
-
-
-# HELP Information ---------------------------------------------------------------
-
-steps <- read_csv2("help.csv")
-
-# FLUID DESIGN FUNCTION ---------------------------------------------------
+# FUNCTIONS ---------------------------------------------------
 
 fluid_design <- function(id, w, x, y, z) {
   fluidRow(
@@ -171,3 +148,5 @@ fluid_design <- function(id, w, x, y, z) {
     )
   )
 }
+
+

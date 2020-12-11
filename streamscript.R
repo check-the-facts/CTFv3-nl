@@ -16,7 +16,6 @@ pp
 data4 %>%
   group_by(INSTELLINGSNAAM.ACTUEEL, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM, TYPE.HOGER.ONDERWIJS) %>% 
   summarise_at(vars(Registered), funs(sum)) %>%
-  filter(Year == input$bar1) %>%
   filter(HO.type %in% input$bar3) %>%
   filter(language %in% input$bar4) %>%
   filter(CROHO.ONDERDEEL %in% input$bar2) %>%
