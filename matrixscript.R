@@ -12,13 +12,14 @@ matrixInput("matrix",
 
  output$matrix = renderDataTable({
     data4 %>%
-      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM.ACTUEEL, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM, TYPE.HOGER.ONDERWIJS) %>%
-      summarise_at(vars(Registered), funs(median)) %>%
-      filter(HO.type %in% input$bar3) %>%
-      filter(language %in% input$bar4) %>%
-      filter(CROHO.ONDERDEEL %in% input$bar2) %>%
-      filter(GEMEENTENAAM %in% input$bar5) %>%
-      filter(TYPE.HOGER.ONDERWIJS %in% input$bar6)
+     select(OPLEIDINGSNAAM.ACTUEEL) %>%
+     filter(HO.type %in% input$wohboInput) %>%
+     filter(language %in% input$languageInput) %>%
+     filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+     filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+     filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+     filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+     filter(INSTELLINGSNAAM %in% input$instituteInput)
   })
 
 n = matrix(data= 0, nrow = length(data4$OPLEIDINGSNAAM.ACTUEEL), ncol = length(data4$OPLEIDINGSNAAM.ACTUEEL), dimnames = list(data4$OPLEIDINGSNAAM.ACTUEEL))

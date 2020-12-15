@@ -1,6 +1,6 @@
 # LIST OF REQUIRED PACKAGES -----------------------------------------------
-devtools::install_github("hrbrmstr/nominatim")
-devtools::install_github("hrbrmstr/streamgraph")
+# devtools::install_github("hrbrmstr/nominatim")
+# devtools::install_github("hrbrmstr/streamgraph")
 
 
 
@@ -38,6 +38,7 @@ library(geojsonio)
 library(cld2)
 library(magrittr)
 library(htmlwidgets)
+library(htmltools)
 library(franc)
 library(cbsodataR)
 library(shinythemes)

@@ -199,3 +199,42 @@ map <- add_osm_objects(map,LibraryPoints, col = 'green')
 map <- add_axes (map)
 
 print_osm_map(map)
+
+
+
+
+
+
+
+
+
+#######################################################
+
+
+
+
+
+leaflet() %>% 
+      addTiles() %>%
+      addProviderTiles("Esri.WorldGrayCanvas") %>%
+
+      addPolygons(data = WBpop, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
+                  fillColor = ~colorbins1(WBpop$population),
+                  highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip1, group = 'P') 
+
+
+
+
+
+
+
+
+leaflet() %>% 
+  #     addTiles() %>%
+  #     addProviderTiles("Esri.WorldGrayCanvas") %>%
+  #     
+  #     
+  #     addPolygons(data = WBpop, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
+  #                 fillColor = ~colorbins2(WBpop$population),
+  #                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip2, group = 'Population') %>%
+

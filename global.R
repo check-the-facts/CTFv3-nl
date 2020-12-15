@@ -1,32 +1,42 @@
 # Install dependencies 
 
 source('dependencies.R')
-# load all packages
-lapply(required_packages, require, character.only = TRUE)
+
+
 
 ##############DATA TRANSFORMATION##############
 
-data4 <- read.csv("C:/Users/jasmi/Desktop/BEP/Data/04-inschrijvingen-wo-2019.csv", sep= ',')
-data4hbo <- read.csv("C:/Users/jasmi/Desktop/BEP/Data/04-inschrijvingen-hbo-2019.csv", sep = ';')
-HOadr <- read.csv("C:/Users/jasmi/Desktop/BEP/Data/01-instellingen-hbo-en-wo.csv", sep = ';')
+data4 <- read.csv("data/04-inschrijvingen-wo-2019.csv", sep= ',')
+data4hbo <- read.csv("data/04-inschrijvingen-hbo-2019.csv", sep = ';')
+HOadr <- read.csv("data/01-instellingen-hbo-en-wo.csv", sep = ';')
+
+
+
+temp <- c("Tilburg University", "Universiteit van Amsterdam", "Erasmus University Rotterdam","Eindhoven University of Technology", " Delft University of Technology", "Leiden University", "Wageningen University", "Maastricht University", "University of Groningen", "University of Twente")
+
+data <- data.frame(
+  year=rep(seq(2015,2019) , each=54),
+  name=rep(temp , 27),
+  value=sample( seq(200,400,1) , 270, replace = T)
+)
 
 
 #####GET CBS DATA + PDOK boundaries#######
 metadata <- cbs_get_meta("84583NED")
 print(metadata$DataProperties$Key)
 
-WBwaarde <- cbs_get_data("84583NED", 
+WBwaarde <- cbs_get_data("84583NED",
                          select=c("WijkenEnBuurten","GemiddeldeWoningwaarde_35")) %>%
   mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
          WOZ = GemiddeldeWoningwaarde_35)
 
 
-WBpop <-cbs_get_data("84583NED", 
+WBpop <-cbs_get_data("84583NED",
                      select=c("WijkenEnBuurten","AantalInwoners_5")) %>%
   mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
          population = AantalInwoners_5)
 
-WBrent <-cbs_get_data("84583NED", 
+WBrent <-cbs_get_data("84583NED",
                       select=c("WijkenEnBuurten","HuurwoningenTotaal_41")) %>%
   mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
          value = HuurwoningenTotaal_41)
@@ -36,15 +46,15 @@ municipalBoundaries <- st_read("https://geodata.nationaalgeoregister.nl/cbsgebie
 
 
 # Link data from Statistics Netherlands to geodata
-WBwaarde <- 
+WBwaarde <-
   municipalBoundaries %>%
   left_join(WBwaarde, by=c(statcode="WijkenEnBuurten"))
 
-WBpop <- 
+WBpop <-
   municipalBoundaries %>%
   left_join(WBpop, by=c(statcode="WijkenEnBuurten"))
 
-WBrent <- 
+WBrent <-
   municipalBoundaries %>%
   left_join(WBrent, by=c(statcode="WijkenEnBuurten"))
 
@@ -74,7 +84,7 @@ tooltip3 <- sprintf("<strong>%s</strong><br/> Rental property percent: %.1f%%"
                     ,WBrent$statnaam
                     ,WBrent$value
 ) %>% lapply(htmltools::HTML)
-
+# 
 
 #########DUO WO########
 
@@ -122,6 +132,16 @@ colnames(data4)[which(names(data4) == "INSTELLINGSNAAM.ACTUEEL")] <- "INSTELLING
 data4 <- merge(data4,HO_locations,by="INSTELLINGSNAAM")
 
 
+labs <- lapply(seq(nrow(data4)), function(i) {
+  paste0( '<p>', data4[i, "INSTELLINGSNAAM"], '<p></p>', 
+          data4[i, "Full_Address"], ', ', 
+          data4[i, "GEMEENTENAAM.x"],'</p><p>', 
+          data4[i, "INTERNETADRES"], '</a>' ) 
+})
+
+
+profiles <- data.frame(c("Cultuur en Maatschappij","Economie en Maatschappij ", "Natuur en Gezondheid", "Natuur en Techniek"), fix.empty.names = F)
+
 
 
 # HELP + sources Information ---------------------------------------------------------------
@@ -129,24 +149,6 @@ data4 <- merge(data4,HO_locations,by="INSTELLINGSNAAM")
 help <- read_csv2("help.csv")
 sources <- read.csv("Sources.csv")
 
-# FUNCTIONS ---------------------------------------------------
 
-fluid_design <- function(id, w, x, y, z) {
-  fluidRow(
-    div(
-      id = id,
-      column(
-        width = 6,
-        uiOutput(w),
-        uiOutput(y)
-      ),
-      column(
-        width = 6,
-        uiOutput(x),
-        uiOutput(z)
-      )
-    )
-  )
-}
 
 

@@ -121,63 +121,80 @@ server <- function(input, output, session) {
     })
   })
   
-  # STUDY PROGRAMS  ----------------------------------------------------------
   
-  # output$box_stud1 <- renderUI({
-  #     tabBox(
-  #       id = "box_stud1",
-  #       width = NULL,
-  #       height = 320,
-  #       tabPanel(
-  #         title = "Selected Study Programmes",
-  #         div(style = "position: absolute; left: 0.5em; bottom: 0.5em;"),
-  #         withSpinner("studies_table",
-  #           type = 4,
-  #           color = "#6db2f2", 
-  #           size = 0.7 
-  #         )
-  #       )
-  #     )
-  #   
-  # })
+
+  
+  # STUDY PROGRAMS  ----------------------------------------------------------
+
   
   output$studies_table = DT::renderDataTable({
+
       data4 %>%
         group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM) %>%
-        summarise_at(vars(Registered), funs(median)) %>%
+        summarise_at(vars(Registered), list(mean = mean, median = median)) %>%
         filter(HO.type %in% input$wohboInput) %>%
         filter(language %in% input$languageInput) %>%
         filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
         filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-        filter(INSTELLINGSNAAM %in% input$instituteInput)
+       # filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        datatable(options=list(lengthMenu = c(5, 30, 50), pageLength = 5, columnDefs = list(list(visible=FALSE, targets=9)), style = "font-size: 70%; width: 60%"))
+  
+
   
       
     })
   
-  output$ins_stream = renderStreamgraph(
-    data4 %>%
-      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM, GESLACHT) %>%
-      filter(HO.type %in% input$wohboInput) %>%
-      filter(language %in% input$languageInput) %>%
-      filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
-      filter(GEMEENTENAAM.x %in% input$locationInput) %>%
-      filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
-      filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-      filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
-      summarise_at(vars(Registered), funs(sum)) %>%
-      streamgraph() %>%
-      geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge") %>%
-      streamgraph('INSTELLINGSNAAM', 'Registered', 'Year')
-      
-    )
+  # stream_react <- reactive({
+  #   #shiny::req(nrow(stream_react) != 0)
+  #   #shiny::req(input$instituteInput)
+  # 
+  #   data4 %>%
+  #     group_by(INSTELLINGSNAAM) %>%
+  #     tapply(Registered, INSTELLINGSNAAM, FUN=sum)%>%
+  #     # filter(HO.type %in% input$wohboInput) %>%
+  #     # filter(language %in% input$languageInput) %>%
+  #     # filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+  #     # filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+  #     # filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+  #     # filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+  #     # filter(INSTELLINGSNAAM %in% input$instituteInput)
+  #     # 
+  #     
+  #     
+  #   
+  # })
   
+ 
   
+  # output$ins_stream = renderPlotly({
+  #     plot_ly(data = stream_react(), x = ~Year, y = ~Registered, type = 'scatter',
+  #             mode = 'none', stackgroup = 'one', split = ~INSTELLINGSNAAM)
+    
+  # })
+  
+  output$ins_stream <- renderStreamgraph({
+    data %>%
+      group_by(name, year) %>%
+      streamgraph(key="name", value="value", date="year", height="300px", width="1000px",interpolate="linear") %>%
+      sg_legend(show=TRUE, label="Instelling ")
+    
+    # data4 %>%
+    #   gather(INSTELLINGSNAAM, Registered, -Year) %>%
+    #   group_by(Year, INSTELLINGSNAAM, Registered) %>%
+    #   sum(Registered) %>%
+    #   streamgraph(key ="INSTELLINGSNAAM", value = "Registered", date = "Year")
+
+
+  })
+
+
   
   output$bar_studies <- renderPlotly({ 
+    
     p <- data4 %>% 
-      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM) %>% 
+      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS) %>% 
       summarise_at(vars(Registered), funs(sum)) %>%
       filter(Year == input$yearInput) %>%
       filter(HO.type %in% input$wohboInput) %>%
@@ -185,45 +202,128 @@ server <- function(input, output, session) {
       filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
       filter(GEMEENTENAAM.x %in% input$locationInput) %>%
       filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
-      filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-      filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+     # filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+    #  filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
       ggplot() +
-      geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge")
+      geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge") +
+      coord_flip()
+    
+    
     ggplotly(p) 
-    
-    
-    
-    
-    output$map1 <- renderLeaflet({
-      leaflet() %>% 
-        addTiles() %>%
-        addProviderTiles("Esri.WorldGrayCanvas") %>%
-        
-        addMarkers(labelOptions = labelOptions(noHide = F), lng = data4$long, lat = data4$lat,
-                   clusterOptions = markerClusterOptions(maxClusterRadius = 9), label = data4$INSTELLINGSNAAM, group="Official University address") %>%
-        AddSearchButton(group = 'Official University address',position = "topleft", zoom = 15)
-      
-      
-    })
-    
     
   })
   
+  output$map1 <- renderLeaflet({
+  
+      leaflet() %>%
+      addProviderTiles("Esri.WorldGrayCanvas") %>%
+      setView(4.95, 52.2, zoom = 7)
+    
+  })
+  
+  
+  map1_data_react <- reactive({
+   # shiny::validate(shiny::need(nrow(map1_data_react) > 0, "No data"))
+    data4 %>%
+      filter(HO.type %in% input$wohboInput) %>%
+      filter(language %in% input$languageInput) %>%
+      filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+      filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+      filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) 
+    #  filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+    #  filter(INSTELLINGSNAAM %in% input$instituteInput) 
+  })
+  ## respond to the filtered data
+  observe({
+    leafletProxy(mapId = "map1", data = map1_data_react()) %>%
+      clearMarkers() %>%   ## clear previous markers
+      addMarkers(label = ~as.character(INSTELLINGSNAAM), popup = ~as.character(INTERNETADRES))
+  })
+  
+  
+  
+  
+# react_matrix = reactive({
+#   data4 %>%
+#     select(OPLEIDINGSNAAM.ACTUEEL) %>%
+#     filter(HO.type %in% input$wohboInput) %>%
+#     filter(language %in% input$languageInput) %>%
+#     filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+#     filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+#     filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+#     filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+#     filter(INSTELLINGSNAAM %in% input$instituteInput)
+#   })
+
+
+ # output$matrix <- renderDataTable({
+ #   DT::datatable({})
+#  #  
+#   
+# })
+  
+
 
   
+    
+    
+## lapply(labs, htmltools::HTML)
   
-  
+
+
+
 
   # SOURCES -------------------------------------------------------------
   
 
   output$source_table <- renderTable(sources, escape=FALSE)
-  
-  
-  
-  # BOX REGIONAL STATS - map 1 -------------------------------------------------------------------
 
   
+  # BOX REGIONAL STATS - map 1 -------------------------------------------------------------------
+ output$mapwoz <- renderLeaflet({
+   leaflet() %>%
+     addTiles() %>%
+     addProviderTiles("Esri.WorldGrayCanvas") %>%
+
+     addPolygons(data = WBwaarde, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
+                 fillColor = ~colorbins1(WBwaarde$WOZ),
+                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip1, group = 'WOZ')
+
+
+
+
+ })
+  
+#  output$mapwoz <- renderImage({'WOZ.png'})
+   
+ output$mappop <- renderLeaflet({
+   leaflet() %>%
+     addTiles() %>%
+     addProviderTiles("Esri.WorldGrayCanvas") %>%
+
+     addPolygons(data = WBpop, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
+                 fillColor = ~colorbins2(WBpop$population),
+                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip2, group = 'Population')
+
+
+     
+
+ })
+ 
+  
+ output$maprental <- renderLeaflet({
+   leaflet() %>%
+     addTiles() %>%
+     addProviderTiles("Esri.WorldGrayCanvas") %>%
+
+     addPolygons(data = WBrent, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
+                 fillColor = ~colorbins3(WBrent$value),
+                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip3, group = 'Rental properties (%)')
+
+    
+
+
+ })
   
   # BOX REGIONAL STATS - map 2 --------------------------------------------------------------
   
@@ -237,8 +337,16 @@ server <- function(input, output, session) {
   
   # BOX ANALYTICS - 1  ------------------------------------------------------------------
   
+ output$inschr_beforeafter2015 <- renderImage({
+   outfile <- tempfile(fileext = '2015inscrijv.jpeg')
+   
+   # Generate the PNG
+   jpeg(outfile, width = 400, height = 300)
   
-  
+ })
+   
+   
+
   
  
   

@@ -14,18 +14,27 @@ pp
 
 
 data4 %>%
-  group_by(INSTELLINGSNAAM.ACTUEEL, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM, TYPE.HOGER.ONDERWIJS) %>% 
-  summarise_at(vars(Registered), funs(sum)) %>%
-  filter(HO.type %in% input$bar3) %>%
-  filter(language %in% input$bar4) %>%
-  filter(CROHO.ONDERDEEL %in% input$bar2) %>%
-  filter(GEMEENTENAAM %in% input$bar5) %>%
-  filter(TYPE.HOGER.ONDERWIJS %in% input$bar6) %>%
-  streamgraph()
-  geom_col(aes(INSTELLINGSNAAM.ACTUEEL, Registered, fill = GESLACHT), position = "dodge")
-  tally(wt=n) %>%
-  streamgraph("name", "n", "year", offset="zero", interpolate="linear") %>%
-  sg_legend(show=TRUE, label="DDSec names: ")
+  group_by(INSTELLINGSNAAM, Year) %>% 
+  streamgraph() %>%
+  tally(vars(Registered), funs(sum)) %>%
+  streamgraph(key = "INSTELLINGSNAAM", value = "Registered", date = "Year", offset="zero", interpolate="linear") %>%
+  sg_legend(show=TRUE, label="Institutes: ")
 
 
 streamgraphOutput(outputId, width = "100%", height = "400px")
+
+plo <- data4 %>%
+  tidyr::pivot_longer(-Year, names_to = ~INSTELLINGSNAAM, values_to = ~Registered)
+
+
+temp <- c("Tilburg University", "Universiteit van Amsterdam", "Erasmus University Rotterdam","Eindhoven University of Technology", " Delft University of Technology", "Leiden University", "Wageningen University", "Maastricht University", "University of Groningen", "University of Twente")
+
+data <- data.frame(
+  year=rep(seq(2015,2019) , each=54),
+  name=rep(temp , 27),
+  value=sample( seq(200,400,1) , 270, replace = T)
+)
+data %>%
+  group_by(name, year) %>%
+  streamgraph(key="name", value="value", date="year", height="300px", width="1000px",interpolate="linear") %>%
+  sg_legend(show=TRUE, label="Instelling ")

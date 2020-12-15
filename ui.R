@@ -83,19 +83,20 @@ ui <- dashboardPage(
                    choices = sort(unique(data4$OPLEIDINGSVORM)), selected = sort(unique(data4$OPLEIDINGSVORM)), multiple = TRUE, 
                    options = list(plugins= list('remove_button'))),
     pickerInput("instituteInput", h5("Select Institute"), choices=sort(unique(data4$INSTELLINGSNAAM)), multiple = TRUE,
-                selected = sort(unique(data4$INSTELLINGSNAAM)),
+                selected = "Tilburg University",
                 options = list(`actions-box` = TRUE, size = 8, `live-search`= TRUE)),
     
     br() ),
   
   dashboardBody(
+   
     tags$head(
       tags$link(
         rel = "stylesheet",
         type = "text/css",
         href = "CTF_style.css")
     ),
-    
+
     useShinyjs(),
     
     # MAIN BODY ---------------------------------------------------------------
@@ -120,35 +121,53 @@ ui <- dashboardPage(
                    icon = icon("table"),
                    style = "primary")
       )
-    ),
+    ), 
+    br(),
     
-    fluid_design("RegionalStats_panel", "box1", "box2", "box3", "box4"),
-    fluid_design("Analytics_panel", "box5", "box6", "box7", "box8"),
+    fluidRow(id = "RegionalStats_panel", br(), 
+             tabBox(title = "Housing", id = "tabsethouse", width = 6,
+                    tabPanel("WOZ", leafletOutput("mapwoz")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("*Student* population", leafletOutput("mappop")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("*Student* Residential Rental Property (%)", leafletOutput("maprental")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))),
+             tabBox(title = "...", id = "tabsetxyz", width = 6)),
+    
+    fluidRow(id = "Analytics_panel", br(),
+             tabBox(title = "What was the effect of the loan system that was introduced in 2015 on students?", id = "tabsetLoan2015", width = 6,
+                    tabPanel("Plot 1", plotlyOutput("inschr_beforeafter2015")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ), br(),
+                             "From this plot we see that student write-ins have actually increased since 2015. However, this does not necessarily mean that this is a result of the change in loan system! 
+                             This could also be because of an overall trend in education in the Netherlands. Check the next tab to see a continuation of this investigation."),
+                    tabPanel("..."))),
+    
     fluidRow(id = "Sources_panel", br(),
                box(title = "Sources", "This table shows the original sources used. These are all openly available (open data).",
                  br(), width = 12, tableOutput("source_table")
              )),
     
-    fluidRow(id = "Studyprograms_panel", br(),
-             tabBox(title = "Studies",id = "tabsetstud", width =  12,
-                    tabPanel("Study Program Table", DT::dataTableOutput("studies_table")),
-                    tabPanel("Matrix", "a doorstroommatrix")), br(),
-             tabBox(title = "Inschrijvingen", id = "tabsetinsch", width = 6,
-                    tabPanel("Trend", streamgraphOutput("ins_stream")),
-                    tabPanel("per group", plotlyOutput("bar_studies")),
+    fluidRow(id = "Studyprograms_panel", 
+             tabBox(title = "Inschrijvingen", id = "tabsetinsch", width = 6, height = 525,
+                    tabPanel("Trend", streamgraphOutput("ins_stream")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("per group", plotlyOutput("bar_studies")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
                     selectInput("streamin",
                                 label = "Choose a variable to display",
                                 choices = c("INSTELLINGSNAAM", "OPLEIDINGSNAAM.ACTUEEL", "GESLACHT", "GEMEENTENAAM.x"),
                                 selected = "INSTELLINGSNAAM")
                     
                     
-                    ), br(),
-             tabBox(title = "Map", id = "tabsetmap", width = 6,
-                    tabPanel("HO locations"), leafletOutput("map1"))
+             ), 
+             tabBox(title = "Map", id = "tabsetmap", width = 6, height = 550,
+                    tabPanel("HO locations"), leafletOutput("map1", height = 450)%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )), 
+             br(),
+             
+             tabBox(title = "Studies",id = "tabsetstud", width = 12,
+                    tabPanel("Study Program Table", DT::dataTableOutput("studies_table")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("Matrix", "doorstroommatrix", DT::dataTableOutput("matrix")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))), br()
+             
           
           
              
              )))
+
+
         
   
 
@@ -157,36 +176,3 @@ ui <- dashboardPage(
 
 
 
-# ###### OLD DASHBOARD
-# 
-# dashHeader <- dashboardHeader(title = "Check-the-Facts", titleWidth = 300)
-# 
-# dashSidebar <- dashboardSidebar(
-#   
-#   ,
-#   hr(),
-#   helpText(" All datasets are from openly available sources.  Initiative of CBS, KOOP, data.overheid and the Onderwijs community")
-#   
-# )
-# 
-# dashBody <- dashboardBody(
-#   tabItems(
-#     tabItem(tabName = "HomeTab", h2("Welcome! This is Check-the-Facts."), 
-#             h4("A place where you can check the facts regarding higher education and hopefully be able to make better and data-driven decsions!"),
-#             fluidPage(
-#               fluidRow(leafletOutput(outputId = "map",height = "600px"),
-#                        plotlyOutput('bar'),width=6, height=500),
-#               DT::dataTableOutput("table"),width= 9, height=500)
-#     ),
-#     tabItem(tabName = "CompareTab", h2("Analysis of data (in depth)")),
-#     tabItem(tabName = "ResearchTab", h2("Studies, Research and Reports")),
-#     tabItem(tabName = "SourceTab", h2("text"))
-#   ))
-# 
-# # Define UI
-# ui <- dashboardPage(
-#   header = dashHeader,
-#   sidebar = dashSidebar,
-#   body = dashBody,
-#   title = 'Prototype 1'
-# )
