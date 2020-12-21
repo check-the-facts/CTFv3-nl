@@ -27,8 +27,8 @@ print(metadata$DataProperties$Key)
 
 WBwaarde <- cbs_get_data("84583NED",
                          select=c("WijkenEnBuurten","GemiddeldeWoningwaarde_35")) %>%
-  mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
-         WOZ = GemiddeldeWoningwaarde_35)
+                           mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
+                                  WOZ = GemiddeldeWoningwaarde_35)
 
 
 WBpop <-cbs_get_data("84583NED",
@@ -129,6 +129,9 @@ data4 <- rbind(data4, data4hbo)
 #Rename column INSTELLINGSNAAM to join data
 colnames(data4)[which(names(data4) == "INSTELLINGSNAAM.ACTUEEL")] <- "INSTELLINGSNAAM"
 
+#Rename Universiteit Maastricht to Maastricht University 
+HO_locations$INSTELLINGSNAAM[HO_locations$INSTELLINGSNAAM == "Universiteit Maastricht"] <- "Maastricht University"
+
 data4 <- merge(data4,HO_locations,by="INSTELLINGSNAAM")
 
 
@@ -148,6 +151,119 @@ profiles <- data.frame(c("Cultuur en Maatschappij","Economie en Maatschappij ", 
 
 help <- read_csv2("help.csv")
 sources <- read.csv("Sources.csv")
+
+
+
+
+################################# Open Street Map Data ###############################
+
+BoundingBox <- osmdata::getbb("Eindhoven")
+#OSM all universities and public transport options
+
+University <- opq(bbox = BoundingBox) %>%
+  add_osm_feature(key ='amenity', value = 'university', value_exact = T) %>%
+  osmdata_sf(quiet = FALSE) %>%
+  unique_osmdata()
+
+Library <- opq(bbox = BoundingBox) %>%
+  add_osm_feature(key ='amenity', value = 'library', value_exact = T) %>%
+  osmdata_sf(quiet = FALSE) %>%
+  unique_osmdata()
+
+Supermarket <- opq(bbox = BoundingBox) %>%
+  add_osm_feature(key ='shop', value = 'supermarket', value_exact = T) %>%
+  osmdata_sf(quiet = FALSE) %>%
+  unique_osmdata()
+
+Bus <- opq(bbox = BoundingBox) %>%
+  add_osm_feature(key ='highway', value = 'bus_stop', value_exact = T) %>%
+  osmdata_sf(quiet = FALSE) %>%
+  unique_osmdata()
+
+
+#####Combining all types of shapes#####
+#####University#####
+
+UniversityPolygons <- University$osm_polygons %>% 
+  select(osm_id, name) %>% 
+  drop_na(name)
+UniversityPolygons %>% 
+  write_sf('UniversityPolygons.shp', driver = 'ESRI Shapefile')
+UniversityPolygonsShapefile <- read_sf('UniversityPolygons.shp')
+
+# ####NULL in this case####
+# UniversityMultipolygons <- University$osm_multipolygons %>%
+#   select_(osm_id, name) %>%
+#   drop_na(name)
+# UniversityMultipolygons %>%
+#   write_sf('UniversityMultipolygons.shp', driver = 'ESRI Shapefile')
+# UniversityMultipolygonsShaoefile <- read_sf('UniversityMultipolygons.shp')
+# UniversityPoints <- University$osm_points %>%
+#   select(osm_id, name) %>%
+#   drop_na(name)
+
+
+####Library####
+LibraryPoints <- Library$osm_points %>%
+  select(osm_id, name) %>%
+  drop_na
+
+# ###NULL in this case####
+# LibraryPolygons <- Library$osm_polygons %>% 
+#   select(osm_id, name) %>% 
+#   drop_na(name)
+# LibraryPolygons %>% 
+#   write_sf('LibraryPolygons.shp', driver = 'ESRI Shapefile')
+# LibraryPolygonsShapefile <- read_sf('LibraryPolygons.shp')
+# LibraryMultipolygons <- Library$osm_multipolygons %>%
+#   select_(osm_id, name) %>%
+#   drop_na(name)
+# LibraryMultipolygons %>%
+#   write_sf('LibraryMultipolygons.shp', driver = 'ESRI Shapefile')
+# LibraryMultipolygonsShaoefile <- read_sf('LibraryMultipolygons.shp')
+
+
+######Supermarket######
+SupermarketPoints <- Supermarket$osm_points %>%
+  select(osm_id, name) %>%
+  drop_na(name)
+
+# ######NULL in this case#####
+# SupermarketPolygons <- Supermarket$osm_polygons %>% 
+#   select(osm_id, name) %>% 
+#   drop_na(name)
+# SuperMarketPolygons %>% 
+#   write_sf('SupermarketPolygons.shp', driver = 'ESRI Shapefile')
+# SupermarketPolygonsShapefile <- read_sf('SupermarketPolygons.shp')
+# SupermarketMultipolygons <- Supermarket$osm_multipolygons %>%
+#   select_(osm_id, name) %>%
+#   drop_na(name)
+# SupermarketMultipolygons %>%
+#   write_sf('SupermarketMultipolygons.shp', driver = 'ESRI Shapefile')
+# SupermarketMultipolygonsShaoefile <- read_sf('SupermarketMultipolygons.shp')
+
+
+#####Bus#######
+BusPoints <- Bus$osm_points %>%
+  select(osm_id, name) %>%
+  drop_na(name)
+
+# ######NULL in this case####
+# BusPolygons <- Bus$osm_polygons %>% 
+#   select(osm_id, name) %>% 
+#   drop_na(name)
+# BusPolygons %>% 
+#   write_sf('BusPolygons.shp', driver = 'ESRI Shapefile')
+# BusPolygonsShapefile <- read_sf('BusPolygons.shp')
+# BusMultipolygons <- Bus$osm_multipolygons %>%
+#   select_(osm_id, name) %>%
+#   drop_na(name)
+# BusMultipolygons %>%
+#   write_sf('BusMultipolygons.shp', driver = 'ESRI Shapefile')
+# BusMultipolygonsShaoefile <- read_sf('BusMultipolygons.shp')
+
+r = 0.009
+pal <- colorFactor(c("blue", "green", "orange", "red"), domain = c("University", "Library", "Supermarket", "Bus"))
 
 
 

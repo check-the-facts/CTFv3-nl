@@ -138,7 +138,7 @@ server <- function(input, output, session) {
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
         filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-       # filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
         datatable(options=list(lengthMenu = c(5, 30, 50), pageLength = 5, columnDefs = list(list(visible=FALSE, targets=9)), style = "font-size: 70%; width: 60%"))
   
 
@@ -146,45 +146,59 @@ server <- function(input, output, session) {
       
     })
   
-  # stream_react <- reactive({
-  #   #shiny::req(nrow(stream_react) != 0)
-  #   #shiny::req(input$instituteInput)
-  # 
-  #   data4 %>%
-  #     group_by(INSTELLINGSNAAM) %>%
-  #     tapply(Registered, INSTELLINGSNAAM, FUN=sum)%>%
-  #     # filter(HO.type %in% input$wohboInput) %>%
-  #     # filter(language %in% input$languageInput) %>%
-  #     # filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
-  #     # filter(GEMEENTENAAM.x %in% input$locationInput) %>%
-  #     # filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
-  #     # filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-  #     # filter(INSTELLINGSNAAM %in% input$instituteInput)
-  #     # 
-  #     
-  #     
-  #   
-  # })
-  
  
-  
-  # output$ins_stream = renderPlotly({
-  #     plot_ly(data = stream_react(), x = ~Year, y = ~Registered, type = 'scatter',
-  #             mode = 'none', stackgroup = 'one', split = ~INSTELLINGSNAAM)
-    
-  # })
+  # If conditions determining which plot should be used
   
   output$ins_stream <- renderStreamgraph({
-    data %>%
-      group_by(name, year) %>%
-      streamgraph(key="name", value="value", date="year", height="300px", width="1000px",interpolate="linear") %>%
-      sg_legend(show=TRUE, label="Instelling ")
     
-    # data4 %>%
-    #   gather(INSTELLINGSNAAM, Registered, -Year) %>%
-    #   group_by(Year, INSTELLINGSNAAM, Registered) %>%
-    #   sum(Registered) %>%
-    #   streamgraph(key ="INSTELLINGSNAAM", value = "Registered", date = "Year")
+    if(input$streamin == 'INSTELLINGSNAAM'){
+      data4 %>%
+        filter(HO.type %in% input$wohboInput) %>%
+        filter(language %in% input$languageInput) %>%
+        filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+        filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+        filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+        filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+        filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        select(INSTELLINGSNAAM, Year, Registered) %>%
+        group_by(INSTELLINGSNAAM, Year) %>%
+        summarise_all(funs(sum)) %>%
+        streamgraph(key="INSTELLINGSNAAM", value="Registered", date="Year", height="300px", width="1000px") %>%
+        sg_axis_x(1)
+      
+      } else if(input$streamin == 'CROHO.ONDERDEEL'){
+        data4 %>%
+          filter(HO.type %in% input$wohboInput) %>%
+          filter(language %in% input$languageInput) %>%
+          filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+          filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+          filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+          filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+          filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+          select(CROHO.ONDERDEEL, Year, Registered) %>%
+          group_by(CROHO.ONDERDEEL, Year) %>%
+          summarise_all(funs(sum)) %>%
+          streamgraph(key="CROHO.ONDERDEEL", value="Registered", date="Year", height="300px", width="1000px") %>%
+          sg_axis_x(1)
+        
+        } else if(input$streamin == 'GESLACHT'){
+          data4 %>%
+            filter(HO.type %in% input$wohboInput) %>%
+            filter(language %in% input$languageInput) %>%
+            filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+            filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+            filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+            filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+            filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+            select(GESLACHT, Year, Registered) %>%
+            group_by(GESLACHT, Year) %>%
+            summarise_all(funs(sum)) %>%
+            streamgraph(key="GESLACHT", value="Registered", date="Year", height="300px", width="1000px") %>%
+            sg_axis_x(1)
+           
+          }
+    
+  
 
 
   })
@@ -192,54 +206,116 @@ server <- function(input, output, session) {
 
   
   output$bar_studies <- renderPlotly({ 
+    if(input$streamin == 'INSTELLINGSNAAM'){
+      p <- data4 %>% 
+        filter(Year == input$yearInput) %>%
+        filter(HO.type %in% input$wohboInput) %>%
+        filter(language %in% input$languageInput) %>%
+        filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+        filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+        filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+        filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+        filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        select(INSTELLINGSNAAM, Registered, GESLACHT) %>%
+        group_by(INSTELLINGSNAAM, GESLACHT) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge") +
+        coord_flip()
+      
+      ggplotly(p)
+      
+    } else if(input$streamin == 'CROHO.ONDERDEEL'){
+      p <- data4 %>% 
+        filter(Year == input$yearInput) %>%
+        filter(HO.type %in% input$wohboInput) %>%
+        filter(language %in% input$languageInput) %>%
+        filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+        filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+        filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+        filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+        filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        select(CROHO.ONDERDEEL, Registered, GESLACHT) %>%
+        group_by(CROHO.ONDERDEEL, GESLACHT) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(CROHO.ONDERDEEL, Registered, fill = GESLACHT), position = "dodge") +
+        coord_flip()
+      
+      ggplotly(p)
+      
+    } else if(input$streamin == "GESLACHT"){
+      p <- data4 %>% 
+        filter(Year == input$yearInput) %>%
+        filter(HO.type %in% input$wohboInput) %>%
+        filter(language %in% input$languageInput) %>%
+        filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+        filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+        filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+        filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+        filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        select(Registered, GESLACHT) %>%
+        group_by(GESLACHT) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(GESLACHT, Registered), position = "dodge") +
+        coord_flip()
+      
+      ggplotly(p)
+    }
     
-    p <- data4 %>% 
-      group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS) %>% 
-      summarise_at(vars(Registered), funs(sum)) %>%
-      filter(Year == input$yearInput) %>%
-      filter(HO.type %in% input$wohboInput) %>%
-      filter(language %in% input$languageInput) %>%
-      filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
-      filter(GEMEENTENAAM.x %in% input$locationInput) %>%
-      filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
-     # filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-    #  filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
-      ggplot() +
-      geom_col(aes(INSTELLINGSNAAM, Registered, fill = GESLACHT), position = "dodge") +
-      coord_flip()
     
-    
-    ggplotly(p) 
     
   })
-  
+
   output$map1 <- renderLeaflet({
+    leaflet() %>%
+          setView(mean(HO_locations$long), mean(HO_locations$lat), zoom = 7) %>%
+          addTiles() %>%
+          addProviderTiles("Esri.WorldGrayCanvas", options = providerTileOptions(noWrap = TRUE)) %>%
+          enableMeasurePath() %>%
+          addMarkers(labelOptions = labelOptions(noHide = F), lng = HO_locations$long, lat = HO_locations$lat, clusterOptions = markerClusterOptions(maxClusterRadius = 9), label = HO_locations$INSTELLINGSNAAM, group="Official University address") %>%
+          AddSearchButton(group = 'Official University address',position = "topleft", zoom = 15) })
   
-      leaflet() %>%
+
+  
+  ############ MAP 2 ###############
+ 
+  
+  output$map2 <- renderLeaflet({
+    leaflet() %>% 
+      setView(lng = 5.476008, lat = 51.450782, zoom = 14) %>%
+      addTiles() %>%
       addProviderTiles("Esri.WorldGrayCanvas") %>%
-      setView(4.95, 52.2, zoom = 7)
+      addPolygons(data = UniversityPolygonsShapefile, color= 'red',label = UniversityPolygonsShapefile$name, group = 'Universities') %>%
+      addCircleMarkers(data=LibraryPoints, group = 'Libraries', color = 'green',label=str_trunc(as.character(LibraryPoints$name),100), radius = 3) %>%
+      addCircleMarkers(data=SupermarketPoints, group = 'Supermarkets',color = 'orange',label=str_trunc(as.character(SupermarketPoints$name),100), radius = 3) %>%
+      addCircleMarkers(data=BusPoints, group = 'Busstops',color = 'blue',label=str_trunc(as.character(BusPoints$name),100), radius = 3) %>%
+      addLegend(pal = pal, values = c("Bus","Library", "Supermarket", "University"),opacity = 0.5)
+   
+    
     
   })
   
   
-  map1_data_react <- reactive({
-   # shiny::validate(shiny::need(nrow(map1_data_react) > 0, "No data"))
-    data4 %>%
-      filter(HO.type %in% input$wohboInput) %>%
-      filter(language %in% input$languageInput) %>%
-      filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
-      filter(GEMEENTENAAM.x %in% input$locationInput) %>%
-      filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) 
-    #  filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-    #  filter(INSTELLINGSNAAM %in% input$instituteInput) 
-  })
-  ## respond to the filtered data
-  observe({
-    leafletProxy(mapId = "map1", data = map1_data_react()) %>%
-      clearMarkers() %>%   ## clear previous markers
-      addMarkers(label = ~as.character(INSTELLINGSNAAM), popup = ~as.character(INTERNETADRES))
-  })
-  
+  # map1_data_react <- reactive({
+  #  # shiny::validate(shiny::need(nrow(map1_data_react) > 0, "No data"))
+  #   data4 %>%
+  #     filter(HO.type %in% input$wohboInput) %>%
+  #     filter(language %in% input$languageInput) %>%
+  #     filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+  #     filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+  #     filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) 
+  #     filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+  #     filter(INSTELLINGSNAAM %in% input$instituteInput) 
+  # })
+  # ## respond to the filtered data
+  # observe({
+  #   leafletProxy(mapId = "map1", data = map1_data_react()) %>%
+  #     clearMarkers() %>%   ## clear previous markers
+  #     addMarkers(label ='INSTELLINGSNAAM', popup = 'INTERNETADRES')
+  # })
+  # 
   
   
   
@@ -279,7 +355,7 @@ server <- function(input, output, session) {
   output$source_table <- renderTable(sources, escape=FALSE)
 
   
-  # BOX REGIONAL STATS - map 1 -------------------------------------------------------------------
+  # BOX REGIONAL STATS - box 1 -------------------------------------------------------------------
  output$mapwoz <- renderLeaflet({
    leaflet() %>%
      addTiles() %>%
@@ -294,7 +370,7 @@ server <- function(input, output, session) {
 
  })
   
-#  output$mapwoz <- renderImage({'WOZ.png'})
+
    
  output$mappop <- renderLeaflet({
    leaflet() %>%
@@ -325,25 +401,20 @@ server <- function(input, output, session) {
 
  })
   
-  # BOX REGIONAL STATS - map 2 --------------------------------------------------------------
+  # BOX REGIONAL STATS - box2 --------------------------------------------------------------
   
   
-  # BOX REGIONAL STATS - map 3 --------------------------------------------------------------
+  # BOX REGIONAL STATS - box 3 --------------------------------------------------------------
   
   
   
-  # BOX REGIONAL STATS - map 4 --------------------------------------------------------------
+  # BOX REGIONAL STATS - box 4 --------------------------------------------------------------
   
   
   # BOX ANALYTICS - 1  ------------------------------------------------------------------
   
- output$inschr_beforeafter2015 <- renderImage({
-   outfile <- tempfile(fileext = '2015inscrijv.jpeg')
-   
-   # Generate the PNG
-   jpeg(outfile, width = 400, height = 300)
-  
- })
+
+
    
    
 
@@ -374,13 +445,13 @@ server <- function(input, output, session) {
     )
   }
   
-  output$down_studiestable <- download_box("studies_table", x)
-  output$down_studiesbar <- download_box("studies_bar", x)
-  output$down_studiesstream <- download_box("studies_stream", x)
-  output$down_map1 <- download_box("map1", x)
-  output$down_map2 <- download_box("map2", x)
-  output$down_map3 <- download_box("map3", x)
-  output$down_map4 <- download_box("map4", x)
+  # output$down_studiestable <- download_box("studies_table", x)
+  # output$down_studiesbar <- download_box("studies_bar", x)
+  # output$down_studiesstream <- download_box("studies_stream", x)
+  # output$down_map1 <- download_box("map1", x)
+  # output$down_map2 <- download_box("map2", x)
+  # output$down_map3 <- download_box("map3", x)
+  # output$down_map4 <- download_box("map4", x)
 
 }
 
@@ -388,73 +459,3 @@ server <- function(input, output, session) {
 
 
 
-# ####### OLD SERVER
-# 
-
-
-
-#
-# #plot
-# server <- shinyServer(function(input, output, session) {
-#   output$map <- renderLeaflet({
-#     leaflet() %>% 
-#       addTiles() %>%
-#       addProviderTiles("Esri.WorldGrayCanvas") %>%
-#       enableMeasurePath() %>%
-#       addPolygons(data = WBwaarde, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
-#                   fillColor = ~colorbins1(WBwaarde$WOZ),
-#                   highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip1, group = 'WOZ') %>%
-#       
-#       addPolygons(data = WBpop, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
-#                   fillColor = ~colorbins2(WBpop$population),
-#                   highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip2, group = 'Population') %>%
-#       
-#       addPolygons(data = WBrent, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
-#                   fillColor = ~colorbins3(WBrent$value),
-#                   highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip3, group = 'Rental properties (%)') %>%
-#      
-#       addMarkers(labelOptions = labelOptions(noHide = F), lng = HO_locations$long, lat = HO_locations$lat,
-#                  clusterOptions = markerClusterOptions(maxClusterRadius = 9), label = HO_locations$INSTELLINGSNAAM, group="Official University address") %>%
-#       
-#       addLayersControl(overlayGroups = c("WOZ", "Population", "Rental properties (%)"),
-#                        options = layersControlOptions(collapsed = FALSE)) %>%
-#       hideGroup(c("Population", "Rental properties (%)")) %>%
-#       AddSearchButton(group = 'Official University address',position = "topleft", zoom = 15)
-#     
-#     
-#   })
-#   
-#   
-#   output$table = DT::renderDataTable({
-#     data4 %>% 
-#       group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM.ACTUEEL, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM, TYPE.HOGER.ONDERWIJS) %>% 
-#       summarise_at(vars(Registered), funs(median)) %>%
-#       filter(HO.type %in% input$bar3) %>%
-#       filter(language %in% input$bar4) %>%
-#       filter(CROHO.ONDERDEEL %in% input$bar2) %>%
-#       filter(GEMEENTENAAM %in% input$bar5) %>%
-#       filter(TYPE.HOGER.ONDERWIJS %in% input$bar6)
-#   })
-#   output$bar <- renderPlotly({ 
-#     p <- data4 %>% 
-#       group_by(INSTELLINGSNAAM.ACTUEEL, Year, GESLACHT, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM, TYPE.HOGER.ONDERWIJS) %>% 
-#       summarise_at(vars(Registered), funs(sum)) %>%
-#       filter(Year == input$bar1) %>%
-#       filter(HO.type %in% input$bar3) %>%
-#       filter(language %in% input$bar4) %>%
-#       filter(CROHO.ONDERDEEL %in% input$bar2) %>%
-#       filter(GEMEENTENAAM %in% input$bar5) %>%
-#       filter(TYPE.HOGER.ONDERWIJS %in% input$bar6) %>%
-#       ggplot() +
-#       geom_col(aes(INSTELLINGSNAAM.ACTUEEL, Registered, fill = GESLACHT), position = "dodge")
-#     ggplotly(p) 
-#     
-#     
-#   })
-#   
-#   
-# })
-# 
-# 
-# 
-# 

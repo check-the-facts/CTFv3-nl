@@ -83,7 +83,7 @@ ui <- dashboardPage(
                    choices = sort(unique(data4$OPLEIDINGSVORM)), selected = sort(unique(data4$OPLEIDINGSVORM)), multiple = TRUE, 
                    options = list(plugins= list('remove_button'))),
     pickerInput("instituteInput", h5("Select Institute"), choices=sort(unique(data4$INSTELLINGSNAAM)), multiple = TRUE,
-                selected = "Tilburg University",
+                selected = sort(unique(data4$INSTELLINGSNAAM)),
                 options = list(`actions-box` = TRUE, size = 8, `live-search`= TRUE)),
     
     br() ),
@@ -123,17 +123,44 @@ ui <- dashboardPage(
       )
     ), 
     br(),
+    fluidRow(id = "Studyprograms_panel", 
+             tabBox(title = "Inschrijvingen", id = "tabsetinsch", width = 6, height = 650,
+                    tabPanel("Trend", streamgraphOutput("ins_stream")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("per group", plotlyOutput("bar_studies")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    selectInput("streamin",
+                                label = "Choose a variable to display",
+                                choices = c("INSTELLINGSNAAM", "CROHO.ONDERDEEL", "GESLACHT"),
+                                selected = "INSTELLINGSNAAM")
+                    
+                    
+             ), 
+             tabBox(title = "Map", id = "tabsetmap", width = 6, height = 650,
+                    tabPanel("HO locations", leafletOutput("map1", height = 550)%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("Useful Locations", pickerInput("map2input", h5("Select Location"), choices=sort(unique(data4$GEMEENTENAAM.x)), multiple = FALSE,
+                                                             selected = "Eindhoven"),leafletOutput("map2", height = 450)%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))
+             ), br(),
+             
+             
+             
+             tabBox(title = "Studies",id = "tabsetstud", width = 12,
+                    tabPanel("Study Program Table", DT::dataTableOutput("studies_table")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
+                    tabPanel("Matrix", "doorstroommatrix", DT::dataTableOutput("matrix")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))), br()
+             
+             
+             
+             
+    ),
     
     fluidRow(id = "RegionalStats_panel", br(), 
              tabBox(title = "Housing", id = "tabsethouse", width = 6,
                     tabPanel("WOZ", leafletOutput("mapwoz")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
                     tabPanel("*Student* population", leafletOutput("mappop")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
                     tabPanel("*Student* Residential Rental Property (%)", leafletOutput("maprental")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))),
-             tabBox(title = "...", id = "tabsetxyz", width = 6)),
+             tabBox(title = "Arbeidsmarkt", id = "tabsetxyz", width = 6)),
     
     fluidRow(id = "Analytics_panel", br(),
              tabBox(title = "What was the effect of the loan system that was introduced in 2015 on students?", id = "tabsetLoan2015", width = 6,
-                    tabPanel("Plot 1", plotlyOutput("inschr_beforeafter2015")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ), br(),
+                    tabPanel("Plot 1", img(src = "2015inschrijv.jpeg", height = 300), br(),
                              "From this plot we see that student write-ins have actually increased since 2015. However, this does not necessarily mean that this is a result of the change in loan system! 
                              This could also be because of an overall trend in education in the Netherlands. Check the next tab to see a continuation of this investigation."),
                     tabPanel("..."))),
@@ -141,31 +168,9 @@ ui <- dashboardPage(
     fluidRow(id = "Sources_panel", br(),
                box(title = "Sources", "This table shows the original sources used. These are all openly available (open data).",
                  br(), width = 12, tableOutput("source_table")
-             )),
+             ))
     
-    fluidRow(id = "Studyprograms_panel", 
-             tabBox(title = "Inschrijvingen", id = "tabsetinsch", width = 6, height = 525,
-                    tabPanel("Trend", streamgraphOutput("ins_stream")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
-                    tabPanel("per group", plotlyOutput("bar_studies")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
-                    selectInput("streamin",
-                                label = "Choose a variable to display",
-                                choices = c("INSTELLINGSNAAM", "OPLEIDINGSNAAM.ACTUEEL", "GESLACHT", "GEMEENTENAAM.x"),
-                                selected = "INSTELLINGSNAAM")
-                    
-                    
-             ), 
-             tabBox(title = "Map", id = "tabsetmap", width = 6, height = 550,
-                    tabPanel("HO locations"), leafletOutput("map1", height = 450)%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )), 
-             br(),
-             
-             tabBox(title = "Studies",id = "tabsetstud", width = 12,
-                    tabPanel("Study Program Table", DT::dataTableOutput("studies_table")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
-                    tabPanel("Matrix", "doorstroommatrix", DT::dataTableOutput("matrix")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))), br()
-             
-          
-          
-             
-             )))
+    ))
 
 
         
