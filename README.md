@@ -1,7 +1,7 @@
 # CheckTheFacts
 Check the facts: Higher Education CBS project
 
-This code is for a prototype made as part of an internship at the CBS. 
+This code is for a prototype made as part of an internship at the CBS (Centraal Bureau voor de Statistiek). 
 This prototype includes openly available data from DUO, CBS, OpenStreetMap and PDOK. 
 You can check out the current running example here: https://jasminkareem.shinyapps.io/CTFv2-nl/
 
