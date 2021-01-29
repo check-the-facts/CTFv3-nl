@@ -1,6 +1,6 @@
 
 
-#Version 2
+#Version 2.1
 
 
 
@@ -30,14 +30,14 @@ server <- function(input, output, session) {
   # use action buttons as tab selectors
   update_all <- function(x) {
     updateSelectInput(session, "tab",
-                      choices = c("", "Study Programs", "Regional Stats", "Analytics", "Sources"),
+                      choices = c("", "Opleidingen", "Regional Stats", "Analytics", "Sources"),
                       label = "",
                       selected = x
     )
   }
 
-  observeEvent(input$studyprograms, {
-    update_all("Study Programs")
+  observeEvent(input$Opleidingen, {
+    update_all("Opleidingen")
   })
   observeEvent(input$regionalstats, {
     update_all("Regional Stats")
@@ -55,33 +55,33 @@ server <- function(input, output, session) {
   # DYNAMIC RENDER RULES ----------------------------------------------------
   
   observeEvent("", {
-    shinyjs::show("Studyprograms_panel")
+    shinyjs::show("Opleidingen_panel")
     shinyjs::hide("RegionalStats_panel")
     shinyjs::hide("Analytics_panel")
     shinyjs::hide("Sources_panel")
   }, once = TRUE)
   
-  observeEvent(input$studyprograms, {
-    shinyjs::show("Studyprograms_panel")
+  observeEvent(input$Opleidingen, {
+    shinyjs::show("Opleidingen_panel")
     shinyjs::hide("RegionalStats_panel")
     shinyjs::hide("Analytics_panel")
     shinyjs::hide("Sources_panel")
   })
   observeEvent(input$regionalstats, {
     shinyjs::show("RegionalStats_panel")
-    shinyjs::hide("Studyprograms_panel")
+    shinyjs::hide("Opleidingen_panel")
     shinyjs::hide("Analytics_panel")
     shinyjs::hide("Sources_panel")
   })
   observeEvent(input$analytics, {
     shinyjs::show("Analytics_panel")
-    shinyjs::hide("Studyprograms_panel")
+    shinyjs::hide("Opleidingen_panel")
     shinyjs::hide("RegionalStats_panel")
     shinyjs::hide("Sources_panel")
   })
   observeEvent(input$sources, {
     shinyjs::show("Sources_panel")
-    shinyjs::hide("Studyprograms_panel")
+    shinyjs::hide("Opleidingen_panel")
     shinyjs::hide("RegionalStats_panel")
     shinyjs::hide("Analytics_panel")
   })
@@ -91,8 +91,8 @@ server <- function(input, output, session) {
   
   observeEvent(input$tab, {
     x <- input$tab
-    updateButton(session, "Study Programs", style = {
-      if (x == "Study Programs") {
+    updateButton(session, "Opleidingen", style = {
+      if (x == "Opleidingen") {
         paste("warning")
       } else {
         paste("primary")
@@ -121,27 +121,34 @@ server <- function(input, output, session) {
     })
   })
   
-  
+ 
 
   
-  # STUDY PROGRAMS  ----------------------------------------------------------
+  # Opleidingen  ----------------------------------------------------------
 
   
   output$studies_table = DT::renderDataTable({
 
       data4 %>%
-        group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, HO.type, language, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM) %>%
+        group_by(OPLEIDINGSNAAM.ACTUEEL, INSTELLINGSNAAM, HO.type, Taal, CROHO.ONDERDEEL, GEMEENTENAAM.x, TYPE.HOGER.ONDERWIJS, OPLEIDINGSVORM) %>%
         summarise_at(vars(Registered), list(mean = mean, median = median)) %>%
         filter(HO.type %in% input$wohboInput) %>%
-        filter(language %in% input$languageInput) %>%
+        filter(Taal %in% input$TaalInput) %>%
         filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
         filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
         filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
-        datatable(options=list(lengthMenu = c(5, 30, 50), pageLength = 5, columnDefs = list(list(visible=FALSE, targets=9)), style = "font-size: 70%; width: 60%"))
-  
-
+        datatable(extensions = c('Buttons','FixedColumns'), options=list(
+          lengthMenu = c(5, 30, 50), 
+          pageLength = 5, 
+          columnDefs = list(list(visible=FALSE, targets=c(9,10))), 
+          style = "font-size: 40%; width: 20%", 
+          dom = 'Bfrtip', 
+          scrollX = TRUE,
+          fixedColumns = TRUE,
+          buttons = c('csv', 'excel', 'pdf')
+          ))
   
       
     })
@@ -154,47 +161,63 @@ server <- function(input, output, session) {
     if(input$streamin == 'INSTELLINGSNAAM'){
       data4 %>%
         filter(HO.type %in% input$wohboInput) %>%
-        filter(language %in% input$languageInput) %>%
+        filter(Taal %in% input$TaalInput) %>%
         filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
         filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
         filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
-        select(INSTELLINGSNAAM, Year, Registered) %>%
-        group_by(INSTELLINGSNAAM, Year) %>%
+        select(INSTELLINGSNAAM, Jaar, Registered) %>%
+        group_by(INSTELLINGSNAAM, Jaar) %>%
         summarise_all(funs(sum)) %>%
-        streamgraph(key="INSTELLINGSNAAM", value="Registered", date="Year", height="300px", width="1000px") %>%
+        streamgraph(key="INSTELLINGSNAAM", value="Registered", date="Jaar", height="300px", width="1000px" ) %>%
         sg_axis_x(1)
       
       } else if(input$streamin == 'CROHO.ONDERDEEL'){
         data4 %>%
           filter(HO.type %in% input$wohboInput) %>%
-          filter(language %in% input$languageInput) %>%
+          filter(Taal %in% input$TaalInput) %>%
           filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
           filter(GEMEENTENAAM.x %in% input$locationInput) %>%
           filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
           filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
           filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
-          select(CROHO.ONDERDEEL, Year, Registered) %>%
-          group_by(CROHO.ONDERDEEL, Year) %>%
+          select(CROHO.ONDERDEEL, Jaar, Registered) %>%
+          group_by(CROHO.ONDERDEEL, Jaar) %>%
           summarise_all(funs(sum)) %>%
-          streamgraph(key="CROHO.ONDERDEEL", value="Registered", date="Year", height="300px", width="1000px") %>%
+          streamgraph(key="CROHO.ONDERDEEL", value="Registered", date="Jaar", height="300px", width="1000px") %>%
+          sg_axis_x(1)
+        
+      } else if(input$streamin == 'OPLEIDINGSNAAM.ACTUEEL'){
+        data4 %>%
+          filter(HO.type %in% input$wohboInput) %>%
+          filter(Taal %in% input$TaalInput) %>%
+          filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+          filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+          filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+          filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+          filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+          select(OPLEIDINGSNAAM.ACTUEEL, Jaar, Registered) %>%
+          group_by(OPLEIDINGSNAAM.ACTUEEL, Jaar) %>%
+          summarise_all(funs(sum)) %>%
+          streamgraph(key="OPLEIDINGSNAAM.ACTUEEL", value="Registered", date="Jaar", height="300px", width="1000px") %>%
           sg_axis_x(1)
         
         } else if(input$streamin == 'GESLACHT'){
           data4 %>%
             filter(HO.type %in% input$wohboInput) %>%
-            filter(language %in% input$languageInput) %>%
+            filter(Taal %in% input$TaalInput) %>%
             filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
             filter(GEMEENTENAAM.x %in% input$locationInput) %>%
             filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
             filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
             filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
-            select(GESLACHT, Year, Registered) %>%
-            group_by(GESLACHT, Year) %>%
+            select(GESLACHT, Jaar, Registered) %>%
+            group_by(GESLACHT, Jaar) %>%
             summarise_all(funs(sum)) %>%
-            streamgraph(key="GESLACHT", value="Registered", date="Year", height="300px", width="1000px") %>%
-            sg_axis_x(1)
+            streamgraph(key="GESLACHT", value="Registered", date="Jaar", height="300px", width="1000px") %>%
+            sg_axis_x(1) 
+          
            
           }
     
@@ -202,15 +225,23 @@ server <- function(input, output, session) {
 
 
   })
+  
+  output$selected_var_stream <- renderText({ 
+    paste("Het aantal inschrijvingen van 2015 tot 2019 per ", input$streamin)
+  })
+  
+  output$selected_var_bar <- renderText({
+    paste("Het aantal inschrijvingen per",input$barin ,"in", input$JaarInput)
+  })
 
 
   
   output$bar_studies <- renderPlotly({ 
-    if(input$streamin == 'INSTELLINGSNAAM'){
+    if(input$barin == 'INSTELLINGSNAAM'){
       p <- data4 %>% 
-        filter(Year == input$yearInput) %>%
+        filter(Jaar == input$JaarInput) %>%
         filter(HO.type %in% input$wohboInput) %>%
-        filter(language %in% input$languageInput) %>%
+        filter(Taal %in% input$TaalInput) %>%
         filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
@@ -225,11 +256,11 @@ server <- function(input, output, session) {
       
       ggplotly(p)
       
-    } else if(input$streamin == 'CROHO.ONDERDEEL'){
+    } else if(input$barin == 'CROHO.ONDERDEEL'){
       p <- data4 %>% 
-        filter(Year == input$yearInput) %>%
+        filter(Jaar == input$JaarInput) %>%
         filter(HO.type %in% input$wohboInput) %>%
-        filter(language %in% input$languageInput) %>%
+        filter(Taal %in% input$TaalInput) %>%
         filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
@@ -244,11 +275,32 @@ server <- function(input, output, session) {
       
       ggplotly(p)
       
-    } else if(input$streamin == "GESLACHT"){
+    } else if(input$barin == 'OPLEIDINGSNAAM.ACTUEEL'){
       p <- data4 %>% 
-        filter(Year == input$yearInput) %>%
+        filter(Jaar == input$JaarInput) %>%
         filter(HO.type %in% input$wohboInput) %>%
-        filter(language %in% input$languageInput) %>%
+        filter(Taal %in% input$TaalInput) %>%
+        filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
+        filter(GEMEENTENAAM.x %in% input$locationInput) %>%
+        filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
+        filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
+        filter(INSTELLINGSNAAM %in% input$instituteInput) %>%
+        select(OPLEIDINGSNAAM.ACTUEEL, Registered, GESLACHT) %>%
+        group_by(OPLEIDINGSNAAM.ACTUEEL, GESLACHT) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(OPLEIDINGSNAAM.ACTUEEL, Registered, fill = GESLACHT), position = "dodge") +
+        coord_flip()
+      
+      
+      ggplotly(p)
+      
+     
+    } else if(input$barin == "GESLACHT"){
+      p <- data4 %>% 
+        filter(Jaar == input$JaarInput) %>%
+        filter(HO.type %in% input$wohboInput) %>%
+        filter(Taal %in% input$TaalInput) %>%
         filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
         filter(GEMEENTENAAM.x %in% input$locationInput) %>%
         filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
@@ -267,7 +319,7 @@ server <- function(input, output, session) {
     
     
   })
-
+################# MAP 1 ####################
   output$map1 <- renderLeaflet({
     leaflet() %>%
           setView(mean(HO_locations$long), mean(HO_locations$lat), zoom = 7) %>%
@@ -297,58 +349,9 @@ server <- function(input, output, session) {
     
   })
   
-  
-  # map1_data_react <- reactive({
-  #  # shiny::validate(shiny::need(nrow(map1_data_react) > 0, "No data"))
-  #   data4 %>%
-  #     filter(HO.type %in% input$wohboInput) %>%
-  #     filter(language %in% input$languageInput) %>%
-  #     filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
-  #     filter(GEMEENTENAAM.x %in% input$locationInput) %>%
-  #     filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) 
-  #     filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-  #     filter(INSTELLINGSNAAM %in% input$instituteInput) 
-  # })
-  # ## respond to the filtered data
-  # observe({
-  #   leafletProxy(mapId = "map1", data = map1_data_react()) %>%
-  #     clearMarkers() %>%   ## clear previous markers
-  #     addMarkers(label ='INSTELLINGSNAAM', popup = 'INTERNETADRES')
-  # })
-  # 
-  
-  
-  
-# react_matrix = reactive({
-#   data4 %>%
-#     select(OPLEIDINGSNAAM.ACTUEEL) %>%
-#     filter(HO.type %in% input$wohboInput) %>%
-#     filter(language %in% input$languageInput) %>%
-#     filter(CROHO.ONDERDEEL %in% input$crohoInput) %>%
-#     filter(GEMEENTENAAM.x %in% input$locationInput) %>%
-#     filter(TYPE.HOGER.ONDERWIJS %in% input$levelInput) %>%
-#     filter(OPLEIDINGSVORM %in% input$fullpartInput)  %>%
-#     filter(INSTELLINGSNAAM %in% input$instituteInput)
-#   })
-
-
- # output$matrix <- renderDataTable({
- #   DT::datatable({})
-#  #  
-#   
-# })
-  
-
 
   
-    
-    
-## lapply(labs, htmltools::HTML)
-  
-
-
-
-
+ 
   # SOURCES -------------------------------------------------------------
   
 
@@ -401,23 +404,8 @@ server <- function(input, output, session) {
 
  })
   
-  # BOX REGIONAL STATS - box2 --------------------------------------------------------------
-  
-  
-  # BOX REGIONAL STATS - box 3 --------------------------------------------------------------
-  
-  
-  
-  # BOX REGIONAL STATS - box 4 --------------------------------------------------------------
-  
-  
-  # BOX ANALYTICS - 1  ------------------------------------------------------------------
-  
 
-
-   
-   
-
+  
   
  
   
@@ -445,13 +433,7 @@ server <- function(input, output, session) {
     )
   }
   
-  # output$down_studiestable <- download_box("studies_table", x)
-  # output$down_studiesbar <- download_box("studies_bar", x)
-  # output$down_studiesstream <- download_box("studies_stream", x)
-  # output$down_map1 <- download_box("map1", x)
-  # output$down_map2 <- download_box("map2", x)
-  # output$down_map3 <- download_box("map3", x)
-  # output$down_map4 <- download_box("map4", x)
+
 
 }
 
