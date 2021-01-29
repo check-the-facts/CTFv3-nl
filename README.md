@@ -1,4 +1,12 @@
 # CheckTheFacts
-Check the facts CBS project
+Check the facts: Higher Education CBS project
 
-As of now, this project is in progress. The code is not complete and doesn't portray what the outcome will be. Parts of the code are mixed between my own and what I found online from other projects that will inspire the layout. They will be cited and explained on a later date, when the project is complete. There will be an update soon. 
+This code is for a prototype made as part of an internship at the CBS. 
+This prototype includes openly available data from DUO, CBS, OpenStreetMap and PDOK. 
+You can check out the current running example here: https://jasminkareem.shinyapps.io/CTFv2-nl/
+
+
+
+
+
+Note: It should be noted that a part of the code used comes from the example of RadaR. It was a nice example of how to design a dashboard in R shiny, so it was used as a point of inspiration. Whilst, the CSS file is almost the same as the example in RadaR, most of the code is different to this example. See: https://github.com/ceefluz/radar
