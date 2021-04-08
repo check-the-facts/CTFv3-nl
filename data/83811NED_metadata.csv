@@ -1,0 +1,203 @@
+﻿"TableInfos"
+"ID";"Title";"ShortTitle";"Identifier";"Summary";"Modified";"ReasonDelivery";"ExplanatoryText";"Language";"Catalog";"Frequency";"Period";"ShortDescription";"Description";"DefaultPresentation";"DefaultSelection";"GraphTypes";"OutputStatus";"Source";"MetaDataModified";"SearchPriority"
+"0";"Uitstromers ho; arbeidsmarktpositie na verlaten onderwijs";"Uitstromers ho; arbeidsmarktpositie";"83811NED";"Arbeidsmarktpositie uitstromers hoger onderwijs (met en zonder diploma)
+Migratieachtergrond, op peilmoment";"2020-09-15T02:00:00";"ActualiseringBijzonder";"";"nl";"CBS";"Perjaar";"2006 - 2017";"
+In deze tabel wordt inzicht gegeven in de arbeidsmarktpositie van personen die het hoger onderwijs verlaten. De cijfers geven de arbeidsmarktpositie weer op verschillende peilmomenten, tot en met tien jaar nadat personen het onderwijs hebben verlaten. De gegevens kunnen uitgesplitst worden naar periode, geslacht, migratieachtergrond, internationale student, soort diploma en studierichting.
+
+Gegevens beschikbaar vanaf: 2006/'07.
+
+Status van de cijfers: alle cijfers in deze tabel zijn definitief.
+
+Wijzigingen per 15 september 2020:
+De cijfers over 2018 (schooljaar 2017/'18) zijn toegevoegd. Hierdoor zijn voor de jaren 2007/'08 en 2012/'13 tot en met 2017/'18 nieuwe peilmomenten beschikbaar.
+Voor het ho-cohort 2007/'08 is dit het peilmoment 10 jaar na verlaten onderwijs, voor het ho-cohort 2012/'13 is dit het peilmoment 5 jaar na verlaten onderwijs, voor het ho-cohort 2013/'14 is dit 4 jaar na verlaten onderwijs, voor het ho-cohort 2014/'15 is dit 3 jaar na verlaten onderwijs, voor het ho-cohort 2015/'16 is dit 2 jaar na verlaten onderwijs, voor het ho-cohort 2016/'17 is dit 1 jaar na verlaten onderwijs en voor het ho-cohort 2017/'18 is dit direct na verlaten onderwijs.
+Daarnaast is vanaf cohort 2017/’18 gebruik gemaakt van een nieuwe methodiek waardoor studenten beter in de tijd gevolgd kunnen worden. Als gevolg hiervan is het aantal studenten dat direct na uitstroom terecht komt in de categorie ‘niet in BRP, zonder diploma’ afgenomen.
+
+Wanneer komen er nieuwe cijfers?
+Nieuwe cijfers verschijnen in het derde kwartaal van 2021. Het betreft cijfers over de arbeidsmarktpositie van het ho-cohort 2008/'09 10 jaar na verlaten onderwijs, van het ho-cohort 2013/'14 5 jaar na verlaten onderwijs, van het ho-cohort 2014/'15 4 jaar na verlaten onderwijs, van het ho-cohort 2015/'16 3 jaar na verlaten onderwijs, van het ho-cohort 2016/'17 2 jaar na verlaten onderwijs, van het ho-cohort 2017/'18 1 jaar na verlaten onderwijs en van het ho-cohort 2018/'19 direct na verlaten onderwijs.
+";"INHOUDSOPGAVE
+
+1. Toelichting
+2. Definities en verklaring van symbolen
+3. Koppelingen naar relevante tabellen en artikelen
+4. Bronnen en methoden
+5. Meer informatie 
+
+1. TOELICHTING
+
+In deze tabel wordt inzicht gegeven in de arbeidsmarktpositie van personen die het hoger onderwijs verlaten. De cijfers geven de arbeidsmarktpositie weer op verschillende peilmomenten, tot en met tien jaar nadat personen het onderwijs hebben verlaten. De gegevens kunnen uitgesplitst worden naar periode, geslacht, migratieachtergrond, internationale student, soort diploma en studierichting.
+
+Gegevens beschikbaar vanaf: 2006/'07.
+
+Status van de cijfers: alle cijfers in deze tabel zijn definitief.
+
+Wijzigingen per 15 september 2020:
+De cijfers over 2018 (schooljaar 2017/'18) zijn toegevoegd. Hierdoor zijn voor de jaren 2007/'08 en 2012/'13 tot en met 2017/'18 nieuwe peilmomenten beschikbaar.
+Voor het ho-cohort 2007/'08 is dit het peilmoment 10 jaar na verlaten onderwijs, voor het ho-cohort 2012/'13 is dit het peilmoment 5 jaar na verlaten onderwijs, voor het ho-cohort 2013/'14 is dit 4 jaar na verlaten onderwijs, voor het ho-cohort 2014/'15 is dit 3 jaar na verlaten onderwijs, voor het ho-cohort 2015/'16 is dit 2 jaar na verlaten onderwijs, voor het ho-cohort 2016/'17 is dit 1 jaar na verlaten onderwijs en voor het ho-cohort 2017/'18 is dit direct na verlaten onderwijs.
+Daarnaast is vanaf cohort 2017/’18 gebruik gemaakt van een nieuwe methodiek waardoor studenten beter in de tijd gevolgd kunnen worden. Als gevolg hiervan is het aantal studenten dat direct na uitstroom terecht komt in de categorie ‘niet in BRP, zonder diploma’ afgenomen.
+
+Wanneer komen er nieuwe cijfers?
+Nieuwe cijfers verschijnen in het derde kwartaal van 2021. Het betreft cijfers over de arbeidsmarktpositie van het ho-cohort 2008/'09 10 jaar na verlaten onderwijs, van het ho-cohort 2013/'14 5 jaar na verlaten onderwijs, van het ho-cohort 2014/'15 4 jaar na verlaten onderwijs, van het ho-cohort 2015/'16 3 jaar na verlaten onderwijs, van het ho-cohort 2016/'17 2 jaar na verlaten onderwijs, van het ho-cohort 2017/'18 1 jaar na verlaten onderwijs en van het ho-cohort 2018/'19 direct na verlaten onderwijs.
+
+2. DEFINITIES EN VERKLARING VAN SYMBOLEN
+
+Uitstromers
+Personen die in een gegeven jaar het bekostigd onderwijs verlaten. De periode 2006/'07, bijvoorbeeld, beschrijft studenten die op 1 oktober 2006 met een voltijd inschrijving staan ingeschreven in het bekostigd hoger onderwijs, en op 1 oktober 2007 het bekostigd onderwijs hebben verlaten.
+
+Internationale student
+Een internationale student is een student met een niet-Nederlandse nationaliteit die zijn vooropleiding niet in Nederland gedaan heeft. 
+
+Soort diploma
+Het soort diploma dat behaald is binnen de onderwijssoort (hbo of wo) waarvoor personen ingeschreven staan voordat zij het onderwijs verlaten. Als personen meerdere diploma’s hebben behaald binnen de onderwijssoort staan zij hier vermeld met het hoogst behaalde diploma. Personen die geen diploma hebben behaald binnen de onderwijssoort waarvoor zij ingeschreven staan voordat zij het onderwijs verlaten kunnen in sommige gevallen wel een diploma behaald hebben binnen de andere onderwijssoort. Het gaat dan om personen die het hbo verlaten zonder hbo-, maar met wo-diploma en personen die het wo verlaten zonder wo-diploma, maar met hbo-diploma. Deze personen staan in deze tabel ingedeeld bij de personen die het hbo dan wel wo verlaten zonder diploma.
+
+Arbeidsmarktpositie
+De arbeidsmarktpositie geeft aan of iemand werk en/of een uitkering heeft. De arbeidsmarktpositie wordt alleen weergegeven van personen die het bekostigd onderwijs hebben verlaten en sindsdien niet zijn teruggekeerd in het bekostigd onderwijs. Bovendien wordt alleen de arbeidsmarktpositie vermeld van personen die op peilmoment staan ingeschreven in de Basis Registratie Personen (BRP). Internationale studenten die na hun studie uit Nederland vertrekken, schrijven zich niet altijd (direct) uit uit de BRP. Dit kan leiden tot een overschatting van het aantal ho-uitstromers zonder werk en zonder uitkering. Voor een goed beeld van de ontwikkeling van de arbeidsmarktpositie wordt daarom aangeraden om alleen naar de niet-internationale studenten te kijken. Voor de arbeidsmarktpositie tot en met oktober 2014 is gebruik gemaakt van definitieve cijfers. Vanaf oktober 2015 is gebruik gemaakt van een bestand met voorlopige cijfers. Ze worden in deze publicatie niet vervangen door definitieve cijfers. Mogelijke verschillen tussen voorlopige en definitieve cijfers zijn klein.
+
+Studierichting
+De studierichting heeft betrekking op het behaalde diploma. Als er geen diploma behaald is binnen de onderwijssoort waarvoor personen ingeschreven staan voordat  zij het onderwijs verlaten dan heeft de studierichting betrekking op de inschrijving in het laatste studiejaar. De indeling in studierichting die gehanteerd wordt is de zogenaamde HOOP-indeling. HOOP staat voor Hoger Onderwijs en OnderzoeksPlan en is een veelgebruikte indeling in het Nederlands hoger onderwijs.
+
+Peilmoment
+Het moment dat de arbeidsmarktpositie wordt weergegeven. Of personen werken en/of een uitkering ontvangen is vastgesteld in de maand oktober van een gegeven jaar. Of personen teruggekeerd zijn in het bekostigd onderwijs en of zij ingeschreven staan in de BRP is vastgesteld op 1 oktober van een gegeven jaar.
+
+Perioden 
+De periode refereert aan het jaar dat iemand nog onderwijs volgt en het daaropvolgende jaar dat deze persoon het onderwijs verlaten heeft. De periode 2006/'07, bijvoorbeeld, beschrijft studenten die op 1 oktober 2006 onderwijs volgen en die op 1 oktober 2007 het onderwijs hebben verlaten.
+
+Verklaring van symbolen
+niets (blanco): het cijfer kan op logische gronden niet voorkomen
+. : het cijfer is onbekend, onvoldoende betrouwbaar of geheim
+* : voorlopige cijfers
+** : nader voorlopige cijfers
+
+De cijfers zijn afgerond op tientallen. Hierdoor kan het voorkomen dat de som van de detailgegevens afwijkt van het totaal.
+
+3. KOPPELINGEN NAAR RELEVANTE TABELLEN EN ARTIKELEN
+
+Relevante tabellen:
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83812NED'>Uitstromers ho; arbeidskenmerken na verlaten onderwijs</a>
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83813NED'>Uitstromers ho met werk; bedrijfstak na verlaten onderwijs</a>
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83814NED'>Uitstromers ho; uitkering na verlaten onderwijs</a>
+<a href='https://opendata.cbs.nl/statline/#/CBS/nl/dataset/83815NED'>Uitstromers ho werkzaam als werknemers; uurloon na verlaten onderwijs</a>
+
+4. BRONNEN EN METHODEN
+
+De onderzoeksmethode van deze tabel is te vinden in de onderzoeksbeschrijving <a href='https://www.cbs.nl/nl-nl/onze-diensten/methoden/onderzoeksomschrijvingen/korte-onderzoeksbeschrijvingen/uitstroom-hoger-onderwijs-naar-arbeidsmarkt'>Uitstroom hoger onderwijs naar arbeidsmarkt</a>.
+
+Gebruikte databronnen: 
+- Basisregistratie Personen (BRP); 
+- Eencijferbestand hoger onderwijs, DUO/CBS; 
+- Stelsel Sociaal-statistische Bestanden (SSB), CBS.
+
+5. MEER INFORMATIE
+
+<a href='https://www.cbs.nl/nl-nl/over-ons/contact/infoservice'>Infoservice</a>
+
+Copyright (c) Centraal Bureau voor de Statistiek, Den Haag/Heerlen
+Verveelvoudiging is toegestaan, mits het CBS als bron wordt vermeld.
+
+";"ts=1594029413622&graphtype=Table&r=UitstromersHoMetEnZonderDiploma,Arbeidsmarktpositie&k=Peilmoment&t=Geslacht,Persoonskenmerken,Studierichting,Perioden,Topics";"$filter=((Geslacht eq 'T001038')) and ((Persoonskenmerken eq 'T001040')) and ((UitstromersHoMetEnZonderDiploma eq 'A043048') or (UitstromersHoMetEnZonderDiploma eq 'A043047') or (UitstromersHoMetEnZonderDiploma eq 'A043053') or (UitstromersHoMetEnZonderDiploma eq 'A043052')) and ((Arbeidsmarktpositie eq 'T001242') or (Arbeidsmarktpositie eq 'A028813') or (Arbeidsmarktpositie eq 'A028814') or (Arbeidsmarktpositie eq 'A028815') or (Arbeidsmarktpositie eq 'A028816')) and ((Studierichting eq 'T001332')) and ((Peilmoment eq 'A029077') or (Peilmoment eq 'A029078') or (Peilmoment eq 'A029079') or (Peilmoment eq 'A029080') or (Peilmoment eq 'A029081') or (Peilmoment eq 'A029082') or (Peilmoment eq 'A048144')) and ((Perioden eq '2007SJ00'))&$select=Geslacht, Persoonskenmerken, UitstromersHoMetEnZonderDiploma, Arbeidsmarktpositie, Studierichting, Peilmoment, Perioden, UitstromersHo_1";"Table,Bar";"Regulier";"CBS.";"2020-09-15T02:00:00";"2"
+"DataProperties"
+ID;Position;ParentID;Type;Key;Title;Description;ReleasePolicy;Datatype;Unit;Decimals;Default
+"0";"0";;"Dimension";"Geslacht";"Geslacht";"";;;;;
+"1";"1";;"Dimension";"Persoonskenmerken";"Persoonskenmerken";"";;;;;
+"2";"2";;"Dimension";"UitstromersHoMetEnZonderDiploma";"Uitstromers ho met en zonder diploma";"";;;;;
+"3";"3";;"Dimension";"Arbeidsmarktpositie";"Arbeidsmarktpositie";"";;;;;
+"4";"4";;"Dimension";"Studierichting";"Studierichting";"";;;;;
+"5";"5";;"Dimension";"Peilmoment";"Peilmoment";"";;;;;
+"6";"6";;"Dimension";"Perioden";"Perioden";"";;;;;
+"7";"7";;"Topic";"UitstromersHo_1";"Uitstromers ho";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger onderwijs hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs.";;"Long";"aantal";"0";"Impossible"
+"Geslacht"
+Key;Title;Description
+"T001038";"Totaal";"Totaal mannen en vrouwen, inclusief geslacht onbekend."
+"3000   ";"Mannen";""
+"4000   ";"Vrouwen";""
+"Persoonskenmerken"
+Key;Title;Description
+"1012600";"Nederlandse achtergrond";"Persoon met een Nederlandse achtergrond
+Persoon van wie de beide ouders in Nederland zijn geboren."
+"2012655";"Westerse migratieachtergrond";"Persoon met een westerse migratieachtergrond
+Persoon met als migratieachtergrond een van de landen in Europa (exclusief Turkije), Noord-Amerika en Oceanië, en Indonesië en Japan. 
+Op grond van hun sociaal- economische en sociaal-culturele positie worden personen met een migratieachtergrond uit Indonesië en Japan tot de westerse migratieachtergrond gerekend. Het gaat vooral om mensen die in het voormalig Nederlands-Indië zijn geboren en werknemers van Japanse bedrijven met hun gezin."
+"2012657";"Niet-westerse migratieachtergrond";"Persoon met een niet-westerse migratieachtergrond
+Persoon met als migratieachtergrond een van de landen in Afrika, Latijns-Amerika en Azië (exclusief Indonesië en Japan) of Turkije. Op grond van hun sociaal-economische en sociaal-culturele positie worden personen met een migratieachtergrond uit Indonesië en Japan tot de westerse migratieachtergrond gerekend. Het gaat vooral om mensen die in het voormalig Nederlands-Indië zijn geboren en werknemers van Japanse bedrijven met hun gezin."
+"2012659";"Onbekende migratieachtergrond";"Onbekend, Internationaal gebied."
+"T001040";"Totaal";""
+"A048134";"Internationale student";"Een internationale student is een student met een niet-Nederlandse nationaliteit die zijn vooropleiding niet in Nederland gedaan heeft."
+"A048133";"Geen internationale student";
+"UitstromersHoMetEnZonderDiploma"
+Key;Title;Description
+"A028566";"Totaal";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger onderwijs hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs."
+"A025294";"Hoger beroepsonderwijs";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger beroepsonderwijs (hbo) hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs."
+"A043048";"Hbo zonder hbo-diploma";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger beroepsonderwijs (hbo) hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die geen hbo-diploma behaald hebben."
+"A043047";"Hbo met hbo-diploma";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger beroepsonderwijs (hbo) hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die een hbo-diploma behaald hebben."
+"A028669";"Hbo-associate degree";"Dit betreft het associate degree-diploma binnen het hoger beroepsonderwijs. Deze heeft een studieduur van twee jaar.
+
+"
+"A043049";"Hbo-bachelor";"Dit betreft een opleiding binnen het hbo met een studieduur van vier jaar of de eerste fase van een studie in het wo met een studieduur van drie jaar na invoering van het bachelor-masterstelsel in het hoger onderwijs in 2002/'03.
+"
+"A043050";"Hbo-master";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger beroepsonderwijs (hbo) hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die een hbo-masterdiploma behaald hebben."
+"A025297";"Wetenschappelijk onderwijs";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd wetenschappelijk onderwijs (wo) hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs."
+"A043053";"Wo zonder wo-diploma";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd wetenschappelijk onderwijs (wo)  hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die geen wo-diploma behaald hebben."
+"A043052";"Wo met wo-diploma";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd wetenschappelijk onderwijs (wo)  hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die een wo-diploma behaald hebben."
+"A043054";"Wo-bachelor";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd wetenschappelijk onderwijs (wo) hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die een wo-bachelordiploma behaald hebben."
+"A043055";"Wo-master";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd wetenschappelijk onderwijs (wo)  hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die een wo-masterdiploma behaald hebben."
+"A043056";"Wo-vervolgopleiding";"Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd wetenschappelijk onderwijs (wo)  hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs en die een wo-diploma vervolgopleiding behaald hebben."
+"Arbeidsmarktpositie"
+Key;Title;Description
+"T001242";"Totaal";"Indeling van de bevolking naar hun positie ten opzichte van de arbeidsmarkt.
+
+Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger onderwijs hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs."
+"A028813";"Met werk, zonder uitkering";"Personen die betaald werk hebben en die geen uitkering ontvangen. Het gaat hier om één van de volgende uitkeringen; bijstand, werkloosheidsuitkering, uitkering bij ziekte of arbeidsongeschiktheid of een overige sociale voorziening zoals de Wajong.
+
+"
+"A028814";"Met werk, met uitkering";"Personen die betaald werk hebben en die een uitkering ontvangen. Het gaat hier om één van de volgende uitkeringen; bijstand, werkloosheidsuitkering, uitkering bij ziekte of arbeidsongeschiktheid of een overige sociale voorziening zoals de Wajong.
+"
+"A028815";"Zonder werk, met uitkering";"Personen die geen betaald werk hebben en een uitkering ontvangen. Het gaat hier om één van de volgende uitkeringen; bijstand, werkloosheidsuitkering, uitkering bij ziekte of arbeidsongeschiktheid of een overige sociale voorziening zoals de Wajong.
+
+
+"
+"A028816";"Zonder werk, zonder uitkering";"Personen die geen betaald werk hebben en geen uitkering ontvangen. Het gaat hier om één van de volgende uitkeringen; bijstand, werkloosheidsuitkering, uitkering bij ziekte of arbeidsongeschiktheid of een overige sociale voorziening zoals de Wajong.
+"
+"A043837";"Terug in onderwijs";"Totaal van de leerlingen, studenten en/of deelnemers die onderwijs volgen. 
+
+Personen die op peilmoment of eerder zijn teruggekeerd in het bekostigd onderwijs."
+"A043838";"Onbekend: niet in BRP";"Personen van wie onbekend is of zij onderwijs volgen en geen ingezetene in de Basis Registratie Personen (BRP).
+
+Personen van wie de arbeidsmarktpositie onbekend is."
+"Studierichting"
+Key;Title;Description
+"T001332";"Totaal";"
+Personen die op 1 oktober van een studiejaar een voltijd inschrijving in het bekostigd hoger onderwijs hebben en die op 1 oktober één jaar later niet meer zijn ingeschreven in het bekostigd onderwijs."
+"A042609";"Onderwijs";""
+"A042610";"Landbouw en natuurlijke omgeving";""
+"A042611";"Natuur";""
+"A042612";"Techniek";
+"A042613";"Gezondheidszorg";
+"A042614";"Economie";
+"A042615";"Recht";
+"A042616";"Gedrag en Maatschappij";
+"A042617";"Taal en cultuur";
+"A042618";"Sectoroverstijgend";
+"Peilmoment"
+Key;Title;Description
+"A029077";"Direct na verlaten onderwijs";"1 oktober, direct na verlaten onderwijs. Voor het studiejaar 2008/'09 is dit 1 oktober 2009."
+"A029078";"1 jaar na verlaten onderwijs";"1 oktober, een jaar na verlaten onderwijs. Voor het studiejaar 2008/'09 is dit 1 oktober 2010."
+"A029079";"2 jaar na verlaten onderwijs";"1 oktober, twee jaar na verlaten onderwijs. Voor het studiejaar 2008/'09 is dit 1 oktober 2011."
+"A029080";"3 jaar na verlaten onderwijs";"1 oktober, drie jaar na verlaten onderwijs. Voor het  studiejaar 2008/'09 is dit 1 oktober 2012."
+"A029081";"4 jaar na verlaten onderwijs";"1 oktober, vier jaar na verlaten onderwijs. Voor het  studiejaar 2008/'09 is dit 1 oktober 2013."
+"A029082";"5 jaar na verlaten onderwijs";"5 oktober, vijf jaar na verlaten onderwijs. Voor het  studiejaar 2008/'09 is dit 1 oktober 2014."
+"A048144";"10 jaar na verlaten onderwijs";"1 oktober, tien jaar na verlaten onderwijs. Voor het schooljaar 2008/'09 is dit 1 oktober 2019."
+"Perioden"
+Key;Title;Description
+"2006SJ00";"2006/'07";"2006/'07 beschrijft studenten die op 1 oktober 2006 (studiejaar 2006/'07) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2007 (studiejaar 2007/'08) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2007SJ00";"2007/'08";"2007/'08 beschrijft studenten die op 1 oktober 2007 (studiejaar 2007/'08) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2008 (studiejaar 2008/'09) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2008SJ00";"2008/'09";"2008/'09 beschrijft studenten die op 1 oktober 2008 (studiejaar 2008/'09) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2009 (studiejaar 2009/'10) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2009SJ00";"2009/'10";"2009/'10 beschrijft studenten die op 1 oktober 2009 (studiejaar 2009/'10) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2010 (studiejaar 2010/'11) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2010SJ00";"2010/'11";"2010/'11 beschrijft studenten die op 1 oktober 2010 (studiejaar 2010/'11) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2011 (studiejaar 2011/'12) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2011SJ00";"2011/'12";"2011/'12 beschrijft studenten die op 1 oktober 2011 (studiejaar 2011/'12) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2012 (studiejaar 2012/'13) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2012SJ00";"2012/'13";"2012/'13 beschrijft studenten die op 1 oktober 2012 (studiejaar 2012/'13) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2013 (studiejaar 2013/'14) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2013SJ00";"2013/'14";"2013/'14 beschrijft studenten die op 1 oktober 2013 (studiejaar 2013/'14) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2014 (studiejaar 2014/'15) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2014SJ00";"2014/'15";"2014/'15 beschrijft studenten die op 1 oktober 2014 (studiejaar 2014/'15) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2015 (studiejaar 2015/'16) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2015SJ00";"2015/'16";"2015/'16 beschrijft studenten die op 1 oktober 2015 (studiejaar 2015/'16) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2016 (studiejaar 2016/'17) niet meer staan ingeschreven in het bekostigd onderwijs.
+"
+"2016SJ00";"2016/'17";"2016/'17 beschrijft studenten die op 1 oktober 2016 (studiejaar 2016/'17) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2017 (studiejaar 2017/'18) niet meer staan ingeschreven in het bekostigd onderwijs."
+"2017SJ00";"2017/'18";"2017/'18 beschrijft studenten die op 1 oktober 2017 (studiejaar 2017/'18) een voltijd inschrijving in het bekostigd hoger onderwijs hebben en op 1 oktober 2018 (studiejaar 2018/'19) niet meer staan ingeschreven in het bekostigd onderwijs."
