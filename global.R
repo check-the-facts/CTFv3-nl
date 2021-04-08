@@ -10,76 +10,161 @@ data4 <- read.csv("data/04-inschrijvingen-wo-2019.csv", sep= ',')
 data4hbo <- read.csv("data/04-inschrijvingen-hbo-2019.csv", sep = ';')
 HOadr <- read.csv("data/01-instellingen-hbo-en-wo.csv", sep = ';')
 
+L_market <- read.csv("data/83811NED_TypedDataSet_29032021_140503.csv", sep= ';')
+
+#Gender
+L_market$Geslacht <- as.character(L_market$Geslacht)
+L_market$Geslacht[L_market$Geslacht == "T001038"] <- "Totaal"
+L_market$Geslacht[L_market$Geslacht == "3000"] <- "Mannen"
+L_market$Geslacht[L_market$Geslacht == '4000'] <- "Vrouwen"
+
+#Persoons kenmerken
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "1012600"] <- "Nederlandse achtergrond"
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "2012655"] <- "Westerse migratieachtergrond"
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "2012657"] <- "Niet-westerse migratieachtergrond"
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "2012659"] <- "Onbekende migratieachtergrond"
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "T001040"] <- "Totaal"
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "A048134"] <- "Internationale student"
+L_market$Persoonskenmerken[L_market$Persoonskenmerken == "A048133"] <- "Geen internationale student"
+
+
+#Uitstromers Ho Met En Zonder Diploma
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A028566"] <- "Totaal"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A025294"] <- "Hoger beroepsonderwijs"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043048"] <- "Hbo zonder hbo-diploma"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043047"] <- "Hbo met hbo-diploma"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A028669"] <- "Hbo-associate degree"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043049"] <- "Hbo-bachelor"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043050"] <- "Hbo-master"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A025297"] <- "Wetenschappelijk onderwijs"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043053"] <- "Wo zonder wo-diploma"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043052"] <- "Wo met wo-diploma"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043054"] <- "Wo-bachelor"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043055"] <- "Wo-master"
+L_market$UitstromersHoMetEnZonderDiploma[L_market$UitstromersHoMetEnZonderDiploma == "A043056"] <- "Wo-vervolgopleiding"
 
 
 
+
+#Arbeidsmarktpositie
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "T001242"] <- "Totaal"
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "A028813"] <- "Met werk, zonder uitkering"
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "A028814"] <- "Met werk, met uitkering"
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "A028815"] <- "Zonder werk, met uitkering"
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "A028816"] <- "Zonder werk, zonder uitkering"
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "A043837"] <- "Terug in onderwijs"
+L_market$Arbeidsmarktpositie[L_market$Arbeidsmarktpositie == "A043838"] <- "Onbekend: niet in BRP"
+
+
+#Studierichting
+L_market$Studierichting[L_market$Studierichting == "T001332"] <- "Totaal"
+L_market$Studierichting[L_market$Studierichting == "A042609"] <- "Onderwijs"
+L_market$Studierichting[L_market$Studierichting == "A042610"] <- "Landbouw en natuurlijke omgeving"
+L_market$Studierichting[L_market$Studierichting == "A042611"] <- "Natuur"
+L_market$Studierichting[L_market$Studierichting == "A042612"] <- "Techniek"
+L_market$Studierichting[L_market$Studierichting == "A042613"] <- "Gezondheidszorg"
+L_market$Studierichting[L_market$Studierichting == "A042614"] <- "Economie"
+L_market$Studierichting[L_market$Studierichting == "A042615"] <- "Recht"
+L_market$Studierichting[L_market$Studierichting == "A042616"] <- "Gedrag en Maatschappij"
+L_market$Studierichting[L_market$Studierichting == "A042617"] <- "Taal en cultuur"
+L_market$Studierichting[L_market$Studierichting == "A042618"] <- "Sectoroverstijgend"
+
+
+#Peilmoment
+L_market$Peilmoment[L_market$Peilmoment == "A029077"] <- "Direct na verlaten onderwijs"
+L_market$Peilmoment[L_market$Peilmoment == "A029078"] <- "1 jaar na verlaten onderwijs"
+L_market$Peilmoment[L_market$Peilmoment == "A029079"] <- "2 jaar na verlaten onderwijs"
+L_market$Peilmoment[L_market$Peilmoment == "A029080"] <- "3 jaar na verlaten onderwijs"
+L_market$Peilmoment[L_market$Peilmoment == "A029081"] <- "4 jaar na verlaten onderwijs"
+L_market$Peilmoment[L_market$Peilmoment == "A029082"] <- "5 jaar na verlaten onderwijs"
+L_market$Peilmoment[L_market$Peilmoment == "A048144"] <- "10 jaar na verlaten onderwijs"
+
+
+#Years
+L_market$Perioden[L_market$Perioden == "2014SJ00"] <- 2015
+L_market$Perioden[L_market$Perioden == "2015SJ00"] <- 2016
+L_market$Perioden[L_market$Perioden == "2016SJ00"] <- 2017
+L_market$Perioden[L_market$Perioden == "2017SJ00"] <- 2018
+
+L_market$Perioden <- as.integer(L_market$Perioden)
+
+#Drop na's
+L_market <- L_market %>% drop_na("UitstromersHo_1")
+
+#temporary list
+temp <- c("Tilburg University", "Universiteit van Amsterdam", "Erasmus University Rotterdam","Eindhoven University of Technology", " Delft University of Technology", "Leiden University", "Wageningen University", "Maastricht University", "University of Groningen", "University of Twente")
+
+data <- data.frame(
+  year=rep(seq(2015,2019) , each=54),
+  name=rep(temp , 27),
+  value=sample( seq(200,400,1) , 270, replace = T)
+)
 
 
 #####GET CBS DATA + PDOK boundaries#######
-metadata <- cbs_get_meta("84583NED")
-print(metadata$DataProperties$Key)
-
-WBwaarde <- cbs_get_data("84583NED",
-                         select=c("WijkenEnBuurten","GemiddeldeWoningwaarde_35")) %>%
-                           mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
-                                  WOZ = GemiddeldeWoningwaarde_35)
-
-
-WBpop <-cbs_get_data("84583NED",
-                     select=c("WijkenEnBuurten","AantalInwoners_5")) %>%
-  mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
-         population = AantalInwoners_5)
-
-WBrent <-cbs_get_data("84583NED",
-                      select=c("WijkenEnBuurten","HuurwoningenTotaal_41")) %>%
-  mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
-         value = HuurwoningenTotaal_41)
-
-# Retrieve data with municipal boundaries from PDOK
-municipalBoundaries <- st_read("https://geodata.nationaalgeoregister.nl/cbsgebiedsindelingen/wfs?request=GetFeature&service=WFS&version=2.0.0&typeName=cbs_gemeente_2019_gegeneraliseerd&outputFormat=json")
-
-
-# Link data from Statistics Netherlands to geodata
-WBwaarde <-
-  municipalBoundaries %>%
-  left_join(WBwaarde, by=c(statcode="WijkenEnBuurten"))
-
-WBpop <-
-  municipalBoundaries %>%
-  left_join(WBpop, by=c(statcode="WijkenEnBuurten"))
-
-WBrent <-
-  municipalBoundaries %>%
-  left_join(WBrent, by=c(statcode="WijkenEnBuurten"))
-
-#convert because the format is wrong
-WBwaarde <- st_transform(WBwaarde, "+proj=longlat +datum=WGS84")
-WBpop <- st_transform(WBpop, "+proj=longlat +datum=WGS84")
-WBrent <- st_transform(WBrent, "+proj=longlat +datum=WGS84")
-
-
-# Choose a color palette and assign it to the values
-colorbins1 <- colorBin("YlOrRd", domain = WBwaarde$WOZ, 5, pretty = TRUE)
-colorbins2 <- colorBin("Blues", domain = WBpop$population, 9, pretty = TRUE)
-colorbins3 <- colorBin("Greens", domain = WBrent$value, 5, pretty = TRUE)
-
-# Create HTML labels for tooltip
-tooltip1 <- sprintf("<strong>%s</strong><br/> Average housing value: %.1i"
-                    ,WBwaarde$statnaam
-                    ,WBwaarde$WOZ
-) %>% lapply(htmltools::HTML)
-
-tooltip2 <- sprintf("<strong>%s</strong><br/> Population: %.1i"
-                    ,WBpop$statnaam
-                    ,WBpop$population
-) %>% lapply(htmltools::HTML)
-
-tooltip3 <- sprintf("<strong>%s</strong><br/> Rental property percent: %.1f%%"
-                    ,WBrent$statnaam
-                    ,WBrent$value
-) %>% lapply(htmltools::HTML)
+# metadata <- cbs_get_meta("84583NED")
+# print(metadata$DataProperties$Key)
 # 
-
+# WBwaarde <- cbs_get_data("84583NED",
+#                          select=c("WijkenEnBuurten","GemiddeldeWoningwaarde_35")) %>%
+#                            mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
+#                                   WOZ = GemiddeldeWoningwaarde_35)
+# 
+# 
+# WBpop <-cbs_get_data("84583NED",
+#                      select=c("WijkenEnBuurten","AantalInwoners_5")) %>%
+#   mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
+#          population = AantalInwoners_5)
+# 
+# WBrent <-cbs_get_data("84583NED",
+#                       select=c("WijkenEnBuurten","HuurwoningenTotaal_41")) %>%
+#   mutate(WijkenEnBuurten = str_trim(WijkenEnBuurten),
+#          value = HuurwoningenTotaal_41)
+# 
+# # Retrieve data with municipal boundaries from PDOK
+# municipalBoundaries <- st_read("https://geodata.nationaalgeoregister.nl/cbsgebiedsindelingen/wfs?request=GetFeature&service=WFS&version=2.0.0&typeName=cbs_gemeente_2019_gegeneraliseerd&outputFormat=json")
+# 
+# 
+# # Link data from Statistics Netherlands to geodata
+# WBwaarde <-
+#   municipalBoundaries %>%
+#   left_join(WBwaarde, by=c(statcode="WijkenEnBuurten"))
+# 
+# WBpop <-
+#   municipalBoundaries %>%
+#   left_join(WBpop, by=c(statcode="WijkenEnBuurten"))
+# 
+# WBrent <-
+#   municipalBoundaries %>%
+#   left_join(WBrent, by=c(statcode="WijkenEnBuurten"))
+# 
+# #convert because the format is wrong
+# WBwaarde <- st_transform(WBwaarde, "+proj=longlat +datum=WGS84")
+# WBpop <- st_transform(WBpop, "+proj=longlat +datum=WGS84")
+# WBrent <- st_transform(WBrent, "+proj=longlat +datum=WGS84")
+# 
+# 
+# # Choose a color palette and assign it to the values
+# colorbins1 <- colorBin("YlOrRd", domain = WBwaarde$WOZ, 5, pretty = TRUE)
+# colorbins2 <- colorBin("Blues", domain = WBpop$population, 9, pretty = TRUE)
+# colorbins3 <- colorBin("Greens", domain = WBrent$value, 5, pretty = TRUE)
+# 
+# # Create HTML labels for tooltip
+# tooltip1 <- sprintf("<strong>%s</strong><br/> Average housing value: %.1i"
+#                     ,WBwaarde$statnaam
+#                     ,WBwaarde$WOZ
+# ) %>% lapply(htmltools::HTML)
+# 
+# tooltip2 <- sprintf("<strong>%s</strong><br/> Population: %.1i"
+#                     ,WBpop$statnaam
+#                     ,WBpop$population
+# ) %>% lapply(htmltools::HTML)
+# 
+# tooltip3 <- sprintf("<strong>%s</strong><br/> Rental property percent: %.1f%%"
+#                     ,WBrent$statnaam
+#                     ,WBrent$value
+# ) %>% lapply(htmltools::HTML)
+# # 
 #########DUO WO########
 
 data4 <- pivot_longer(data4, cols = starts_with("X20"), values_to = "Registered", names_to = "Jaar", values_drop_na = TRUE) 
@@ -144,7 +229,7 @@ profiles <- data.frame(c("Cultuur en Maatschappij","Economie en Maatschappij ", 
 # HELP + sources Information ---------------------------------------------------------------
 
 help <- read_csv2("help.csv")
-sources <- read.csv("Sources.csv")
+sources <- read.csv("Sources.csv", sep = ",")
 
 
 

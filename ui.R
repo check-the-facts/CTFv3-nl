@@ -1,6 +1,6 @@
 
 
-#Version 2.1
+#Version 3
 
 
 
@@ -25,7 +25,7 @@ ui <- dashboardPage(
       a(
         strong("Meer Informatie over Check-the-Facts"),
         height = 40,
-        href = 'https://forum.datacommunities.nl/t/prototype-onderwijsdata-dashboard-voor-studiekiezers-en-analisten-en/132',
+        href = "https://data.overheid.nl/community/application/4638",
         title = ""
        
       ),
@@ -99,9 +99,9 @@ ui <- dashboardPage(
                    label = "Opleidingen",
                    icon = icon("user-graduate"),
                    style = "primary"),
-          bsButton("regionalstats",
-                   label = "Regionale Statistieken",
-                   icon = icon("globe-europe"),
+          bsButton("arbeitsmarkt",
+                   label = "Arbeidsmarkt",
+                   icon = icon("briefcase"),
                    style = "primary"),
           bsButton("analytics",
                    label = "Analyse",
@@ -155,12 +155,21 @@ ui <- dashboardPage(
              
     ),
     
-    fluidRow(id = "RegionalStats_panel", br(), 
-             tabBox(title = "Huisvesting", id = "tabsethouse", width = 6,
-                    tabPanel("WOZ", leafletOutput("mapwoz")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
-                    tabPanel("bevolking", leafletOutput("mappop")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 )),
-                    tabPanel("percentage huurwoningen", leafletOutput("maprental")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ))),
-             tabBox(title = "Arbeidsmarkt", id = "tabsetxyz", width = 6)),
+    fluidRow(id = "Arbeitsmarkt_panel", br(), 
+             tabBox(title = "Arbeitsmarkt data",  id = "tabsetjob",  width = 12, height = 650,
+                    tabPanel("x", textOutput("selected_var_job"), plotlyOutput("jobs1")%>%shinycssloaders::withSpinner(type = 4,color = "#6db2f2", size = 0.7 ),
+                             fluidRow(
+                               column(width = 6, sliderInput(inputId = "jobyearInput",label = "Selecteer Jaar", min = min(L_market$Perioden),max =  max(L_market$Perioden),value = max(L_market$Perioden), step = 1, sep = ""
+                               )),
+                               column(width = 6, selectInput("jobin",
+                                                             label = "Kies optie te tonen",
+                                                             choices = c("Studierichting", "Perioden","Arbeidsmarktpositie", "UitstromersHoMetEnZonderDiploma"),
+                                                             selected = "Studierichting",
+                                                             width = "300")))
+                             
+                             )
+                  
+                    )),
     
     fluidRow(id = "Analytics_panel", br(),
              tabBox(title = "Wat was het effect van het leenstelsel dat in 2015 is ingevoerd op studenten?", id = "tabsetLoan2015", width = 6,

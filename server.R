@@ -1,6 +1,6 @@
 
 
-#Version 2.1
+#Version 3
 
 
 
@@ -30,7 +30,7 @@ server <- function(input, output, session) {
   # use action buttons as tab selectors
   update_all <- function(x) {
     updateSelectInput(session, "tab",
-                      choices = c("", "Opleidingen", "Regional Stats", "Analytics", "Sources"),
+                      choices = c("", "Opleidingen", "Arbeitsmarkt", "Analytics", "Sources"),
                       label = "",
                       selected = x
     )
@@ -39,8 +39,8 @@ server <- function(input, output, session) {
   observeEvent(input$Opleidingen, {
     update_all("Opleidingen")
   })
-  observeEvent(input$regionalstats, {
-    update_all("Regional Stats")
+  observeEvent(input$arbeitsmarkt, {
+    update_all("Arbeitsmarkt")
   })
   observeEvent(input$analytics, {
     update_all("Analytics")
@@ -56,19 +56,19 @@ server <- function(input, output, session) {
   
   observeEvent("", {
     shinyjs::show("Opleidingen_panel")
-    shinyjs::hide("RegionalStats_panel")
+    shinyjs::hide("Arbeitsmarkt_panel")
     shinyjs::hide("Analytics_panel")
     shinyjs::hide("Sources_panel")
   }, once = TRUE)
   
   observeEvent(input$Opleidingen, {
     shinyjs::show("Opleidingen_panel")
-    shinyjs::hide("RegionalStats_panel")
+    shinyjs::hide("Arbeitsmarkt_panel")
     shinyjs::hide("Analytics_panel")
     shinyjs::hide("Sources_panel")
   })
-  observeEvent(input$regionalstats, {
-    shinyjs::show("RegionalStats_panel")
+  observeEvent(input$arbeitsmarkt, {
+    shinyjs::show("Arbeitsmarkt_panel")
     shinyjs::hide("Opleidingen_panel")
     shinyjs::hide("Analytics_panel")
     shinyjs::hide("Sources_panel")
@@ -76,13 +76,13 @@ server <- function(input, output, session) {
   observeEvent(input$analytics, {
     shinyjs::show("Analytics_panel")
     shinyjs::hide("Opleidingen_panel")
-    shinyjs::hide("RegionalStats_panel")
+    shinyjs::hide("Arbeitsmarkt_panel")
     shinyjs::hide("Sources_panel")
   })
   observeEvent(input$sources, {
     shinyjs::show("Sources_panel")
     shinyjs::hide("Opleidingen_panel")
-    shinyjs::hide("RegionalStats_panel")
+    shinyjs::hide("Arbeitsmarkt_panel")
     shinyjs::hide("Analytics_panel")
   })
   
@@ -98,8 +98,8 @@ server <- function(input, output, session) {
         paste("primary")
       }
     })
-    updateButton(session, "Regional Stats", style = {
-      if (x == "Regional Stats") {
+    updateButton(session, "Arbeitsmarkt", style = {
+      if (x == "Arbeitsmarkt") {
         paste("warning")
       } else {
         paste("primary")
@@ -356,54 +356,69 @@ server <- function(input, output, session) {
   
 
   output$source_table <- renderTable(sources, escape=FALSE)
-
-  
-  # BOX REGIONAL STATS - box 1 -------------------------------------------------------------------
- output$mapwoz <- renderLeaflet({
-   leaflet() %>%
-     addTiles() %>%
-     addProviderTiles("Esri.WorldGrayCanvas") %>%
-
-     addPolygons(data = WBwaarde, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
-                 fillColor = ~colorbins1(WBwaarde$WOZ),
-                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip1, group = 'WOZ')
-
-
-
-
- })
   
 
-   
- output$mappop <- renderLeaflet({
-   leaflet() %>%
-     addTiles() %>%
-     addProviderTiles("Esri.WorldGrayCanvas") %>%
-
-     addPolygons(data = WBpop, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
-                 fillColor = ~colorbins2(WBpop$population),
-                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip2, group = 'Population')
-
-
-     
-
- })
- 
   
- output$maprental <- renderLeaflet({
-   leaflet() %>%
-     addTiles() %>%
-     addProviderTiles("Esri.WorldGrayCanvas") %>%
-
-     addPolygons(data = WBrent, weight = 1, smoothFactor = 0.5, opacity = 0.6, fillOpacity = 0.6,
-                 fillColor = ~colorbins3(WBrent$value),
-                 highlightOptions = highlightOptions(weight = 2, color = "red", fillOpacity = 0.3), label = tooltip3, group = 'Rental properties (%)')
-
+  # BOX Arbeitsmarkt -------------------------------------------------------------------
+  
+  output$selected_var_job <- renderText({
+    paste("Het aantal uitstromers per",input$jobin ,"in", input$jobyearInput)
+  })
+  
+  output$jobs1 <- renderPlotly({
     
-
-
- })
-  
+    if(input$jobin == 'Perioden'){
+      p <- L_market %>% 
+        select(Perioden,UitstromersHo_1, Geslacht) %>%
+        group_by(Perioden, Geslacht) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(Perioden, UitstromersHo_1, fill = Geslacht), position = "dodge") +
+        coord_flip()
+      
+      ggplotly(p)
+      
+    } else if(input$jobin == 'Studierichting'){
+      p <- L_market %>% 
+        filter(Perioden == input$jobyearInput) %>%
+        select(Studierichting, UitstromersHo_1, Geslacht) %>%
+        group_by(Studierichting, Geslacht) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(Studierichting, UitstromersHo_1, fill = Geslacht), position = "dodge") +
+        coord_flip()
+      
+      ggplotly(p)
+      
+    } else if(input$jobin == 'UitstromersHoMetEnZonderDiploma'){
+      p <- L_market %>% 
+        filter(Perioden == input$jobyearInput) %>%
+        select(UitstromersHoMetEnZonderDiploma, Geslacht, UitstromersHo_1) %>%
+        group_by(UitstromersHoMetEnZonderDiploma, Geslacht) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(UitstromersHoMetEnZonderDiploma, UitstromersHo_1, fill = Geslacht), position = "dodge") +
+        coord_flip()
+      
+      
+      ggplotly(p)
+      
+      
+    } else if(input$jobin == "Arbeidsmarktpositie"){
+      p <- L_market %>% 
+        filter(Perioden == input$jobyearInput) %>%
+        select(Arbeidsmarktpositie, Geslacht, UitstromersHo_1) %>%
+        group_by(Arbeidsmarktpositie, Geslacht) %>% 
+        summarise_all(funs(sum)) %>%
+        ggplot() +
+        geom_col(aes(Arbeidsmarktpositie, UitstromersHo_1, fill = Geslacht), position = "dodge") +
+        coord_flip()
+      
+      ggplotly(p)
+    }
+    
+    
+  })
 
   
   
