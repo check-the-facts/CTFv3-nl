@@ -1,9 +1,11 @@
 # CheckTheFacts
 Check the facts: Higher Education CBS project
 
+UPDATE: This includes the code for the dutch language version. When running it make sure to unzip onee of the datasets in the /data folder (It was way too large to upload..). 
+
 This code is for a prototype made as part of an internship at the CBS (Centraal Bureau voor de Statistiek). 
 This prototype includes openly available data from DUO, CBS, OpenStreetMap and PDOK. 
-You can check out the current running example here: https://jasminkareem.shinyapps.io/CTFv2-nl/
+You can check out the current running example here: https://jasminkareem.shinyapps.io/CTFv3-nl/
 
 
 
